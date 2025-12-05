@@ -31,21 +31,21 @@ export default function OwnerRegistration() {
   //     }
   //   }
   // };
-  
+
   const handleDelete = async (ownerId) => {
-  if (window.confirm("Are you sure you want to inactivate this owner?")) {
-    try {
-      await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
-        status: "Inactive",
-      });
-      setMessage("Owner inactivated successfully!");
-      fetchOwners();
-    } catch (err) {
-      console.error(err);
-      setMessage("Failed to inactivate owner. Try again!");
+    if (window.confirm("Are you sure you want to inactivate this owner?")) {
+      try {
+        await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
+          status: "Inactive",
+        });
+        setMessage("Owner inactivated successfully!");
+        fetchOwners();
+      } catch (err) {
+        console.error(err);
+        setMessage("Failed to inactivate owner. Try again!");
+      }
     }
-  }
-};
+  };
 
 
   // const fetchOwners = async () => {
@@ -58,72 +58,146 @@ export default function OwnerRegistration() {
   // };
 
 
-//   const fetchOwners = async () => {
-//   try {
-//     const [ownersRes, homesRes] = await Promise.all([
-//       axios.get("http://localhost:5000/api/owners-with-homes"),
-//       axios.get("http://localhost:5000/api/homes/available"),
-//     ]);
+  //   const fetchOwners = async () => {
+  //   try {
+  //     const [ownersRes, homesRes] = await Promise.all([
+  //       axios.get("http://localhost:5000/api/owners-with-homes"),
+  //       axios.get("http://localhost:5000/api/homes/available"),
+  //     ]);
 
-//     const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
-//     const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+  //     const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
+  //     const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
 
-//     // 🔹 Filter out already assigned homes
-//     const assignedHomeIDs = owners
-//       .filter((o) => o.Home)
-//       .map((o) => o.Home._id);
+  //     // 🔹 Filter out already assigned homes
+  //     const assignedHomeIDs = owners
+  //       .filter((o) => o.Home)
+  //       .map((o) => o.Home._id);
 
-//     const availableHomes = homes.filter(
-//       (home) => !assignedHomeIDs.includes(home._id)
-//     );
+  //     const availableHomes = homes.filter(
+  //       (home) => !assignedHomeIDs.includes(home._id)
+  //     );
 
-//     setOwnerList(owners);
-//     setHomes(availableHomes);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+  //     setOwnerList(owners);
+  //     setHomes(availableHomes);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
 
-    const fetchOwners = async () => {
-  try {
-    const ownersURL = showInactive
-      ? "http://localhost:5000/api/inactive-owners-with-homes"
-      : "http://localhost:5000/api/owners-with-homes";
+  //     const fetchOwners = async () => {
+  //   try {
+  //     const ownersURL = showInactive
+  //       ? "http://localhost:5000/api/inactive-owners-with-homes"
+  //       : "http://localhost:5000/api/owners-with-homes";
 
-    const [ownersRes, homesRes] = await Promise.all([
-      axios.get(ownersURL),
-      axios.get("http://localhost:5000/api/homes/available"),
-    ]);
+  //     const [ownersRes, homesRes] = await Promise.all([
+  //       axios.get(ownersURL),
+  //       axios.get("http://localhost:5000/api/homes/available"),
+  //        axios.get("http://localhost:5000/api/streets"),
+  //     ]);
 
-    const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
-    const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+  //     const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
+  //     const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+  //     const streets = Array.isArray(streetsRes.data?.data) ? streetsRes.data.data : [];
 
-    const assignedHomeIDs = owners.filter(o => o.Home).map(o => o.Home._id);
-    const availableHomes = homes.filter(home => !assignedHomeIDs.includes(home._id));
+  //     const homesWithStreetNames = homes.map(home => {
+  //       const street = streets.find(s => s._id === home.StreetID);
+  //       return {
+  //         ...home,
+  //         StreetNumber: street?.streetNumber || "Unknown"
+  //       };
+  //     });
 
-    setOwnerList(owners);
-    setHomes(availableHomes);
-  } catch (err) {
-    console.error(err);
-  }
-};
+  //     // Also update owners' home data with street numbers
+  //     const ownersWithUpdatedHomes = owners.map(owner => {
+  //       if (owner.Home && owner.Home.StreetID) {
+  //         const street = streets.find(s => s._id === owner.Home.StreetID);
+  //         return {
+  //           ...owner,
+  //           Home: {
+  //             ...owner.Home,
+  //             StreetNumber: street?.streetNumber || "Unknown"
+  //           }
+  //         };
+  //       }
+  //       return owner;
+  //     });
 
-  
-const handleActivate = async (ownerId) => {
-  if (window.confirm("Do you want to activate this owner again?")) {
+  //     const assignedHomeIDs = owners.filter(o => o.Home).map(o => o.Home._id);
+  //     const availableHomes = homes.filter(home => !assignedHomeIDs.includes(home._id));
+
+  //     setOwnerList(owners);
+  //     setHomes(availableHomes);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+
+  const fetchOwners = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
-        status: "Active",
+      const ownersURL = showInactive
+        ? "http://localhost:5000/api/inactive-owners-with-homes"
+        : "http://localhost:5000/api/owners-with-homes";
+
+      const [ownersRes, homesRes, streetsRes] = await Promise.all([ // ✅ Added streetsRes here
+        axios.get(ownersURL),
+        axios.get("http://localhost:5000/api/homes/available"),
+        axios.get("http://localhost:5000/api/streets"),
+      ]);
+
+      const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
+      const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+      const streets = Array.isArray(streetsRes.data?.data) ? streetsRes.data.data : []; // ✅ Now streetsRes is defined
+
+      const homesWithStreetNames = homes.map(home => {
+        const street = streets.find(s => s._id === home.StreetID);
+        return {
+          ...home,
+          StreetNumber: street?.streetNumber || "Unknown"
+        };
       });
-      setMessage("Owner activated successfully!");
-      fetchOwners();
+
+      // Also update owners' home data with street numbers
+      const ownersWithUpdatedHomes = owners.map(owner => {
+        if (owner.Home && owner.Home.StreetID) {
+          const street = streets.find(s => s._id === owner.Home.StreetID);
+          return {
+            ...owner,
+            Home: {
+              ...owner.Home,
+              StreetNumber: street?.streetNumber || "Unknown"
+            }
+          };
+        }
+        return owner;
+      });
+
+      const assignedHomeIDs = owners.filter(o => o.Home).map(o => o.Home._id);
+      const availableHomes = homesWithStreetNames.filter(home => !assignedHomeIDs.includes(home._id)); // ✅ Use homesWithStreetNames
+
+      setOwnerList(ownersWithUpdatedHomes); // ✅ Use ownersWithUpdatedHomes
+      setHomes(availableHomes);
     } catch (err) {
       console.error(err);
-      setMessage("Failed to activate owner. Try again!");
     }
-  }
-};
+  };
+
+  const handleActivate = async (ownerId) => {
+    if (window.confirm("Do you want to activate this owner again?")) {
+      try {
+        await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
+          status: "Active",
+        });
+        setMessage("Owner activated successfully!");
+        fetchOwners();
+      } catch (err) {
+        console.error(err);
+        setMessage("Failed to activate owner. Try again!");
+      }
+    }
+  };
 
 
 
@@ -136,40 +210,125 @@ const handleActivate = async (ownerId) => {
   //     .catch((err) => console.log(err));
   // }, []);
 
+  //   useEffect(() => {
+  //   const loadData = async () => {
+  //     try {
+  //       const [ownersRes, homesRes] = await Promise.all([
+  //         axios.get("http://localhost:5000/api/owners-with-homes"),
+  //         axios.get("http://localhost:5000/api/homes/available"),
+  //         axios.get("http://localhost:5000/api/streets"),
+  //       ]);
+
+  //       const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
+  //       const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+  //       const streets = Array.isArray(streetsRes.data?.data) ? streetsRes.data.data : [];
+
+  //       // Map street numbers to homes
+  //       const homesWithStreetNames = homes.map(home => {
+  //         const street = streets.find(s => s._id === home.StreetID);
+  //         return {
+  //           ...home,
+  //           StreetNumber: street?.streetNumber || "Unknown"
+  //         };
+  //       });
+
+  //       // Update owners' home data with street numbers
+  //       const ownersWithUpdatedHomes = owners.map(owner => {
+  //         if (owner.Home && owner.Home.StreetID) {
+  //           const street = streets.find(s => s._id === owner.Home.StreetID);
+  //           return {
+  //             ...owner,
+  //             Home: {
+  //               ...owner.Home,
+  //               StreetNumber: street?.streetNumber || "Unknown"
+  //             }
+  //           };
+  //         }
+  //         return owner;
+  //       });
+
+  //       // 🔹 Get all home IDs already assigned to owners
+  //       const assignedHomeIDs = owners
+  //         .filter((o) => o.Home)
+  //         .map((o) => o.Home._id);
+
+  //       // 🔹 Exclude already assigned homes
+  //       const availableHomes = homes.filter(
+  //         (home) => !assignedHomeIDs.includes(home._id)
+  //       );
+
+  //       setOwnerList(owners);
+  //       setHomes(availableHomes);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+
+  //   loadData();
+  // }, []);
+
+
   useEffect(() => {
-  const loadData = async () => {
-    try {
-      const [ownersRes, homesRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/owners-with-homes"),
-        axios.get("http://localhost:5000/api/homes/available"),
-      ]);
+    const loadData = async () => {
+      try {
+        const [ownersRes, homesRes, streetsRes] = await Promise.all([ // ✅ Added streetsRes here
+          axios.get("http://localhost:5000/api/owners-with-homes"),
+          axios.get("http://localhost:5000/api/homes/available"),
+          axios.get("http://localhost:5000/api/streets"),
+        ]);
 
-      const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
-      const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+        const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
+        const homes = Array.isArray(homesRes.data) ? homesRes.data : [];
+        const streets = Array.isArray(streetsRes.data?.data) ? streetsRes.data.data : []; // ✅ Now streetsRes is defined
 
-      // 🔹 Get all home IDs already assigned to owners
-      const assignedHomeIDs = owners
-        .filter((o) => o.Home)
-        .map((o) => o.Home._id);
+        // Map street numbers to homes
+        const homesWithStreetNames = homes.map(home => {
+          const street = streets.find(s => s._id === home.StreetID);
+          return {
+            ...home,
+            StreetNumber: street?.streetNumber || "Unknown"
+          };
+        });
 
-      // 🔹 Exclude already assigned homes
-      const availableHomes = homes.filter(
-        (home) => !assignedHomeIDs.includes(home._id)
-      );
+        // Update owners' home data with street numbers
+        const ownersWithUpdatedHomes = owners.map(owner => {
+          if (owner.Home && owner.Home.StreetID) {
+            const street = streets.find(s => s._id === owner.Home.StreetID);
+            return {
+              ...owner,
+              Home: {
+                ...owner.Home,
+                StreetNumber: street?.streetNumber || "Unknown"
+              }
+            };
+          }
+          return owner;
+        });
 
-      setOwnerList(owners);
-      setHomes(availableHomes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+        // 🔹 Get all home IDs already assigned to owners
+        const assignedHomeIDs = owners
+          .filter((o) => o.Home)
+          .map((o) => o.Home._id);
 
-  loadData();
-}, []);
+        // 🔹 Exclude already assigned homes - Use homesWithStreetNames
+        const availableHomes = homesWithStreetNames.filter(
+          (home) => !assignedHomeIDs.includes(home._id)
+        );
 
-useEffect(() => {
-  fetchOwners();
-}, [showInactive]);
+        setOwnerList(ownersWithUpdatedHomes); // ✅ Use ownersWithUpdatedHomes
+        setHomes(availableHomes);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadData();
+  }, []);
+
+
+  useEffect(() => {
+    fetchOwners();
+  }, [showInactive]);
 
 
 
@@ -191,192 +350,192 @@ useEffect(() => {
     setForm({ ...form, [name]: value });
   };
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setMessage("");
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     setMessage("");
 
-//     try {
-//       if (isEdit) {
-//         await axios.put(`http://localhost:5000/api/owners/${form._id}`, {
-//           UserName: form.UserName,
-//           UserGender: form.UserGender,
-//           UserCNo: form.UserCNo,
-//           UserEmailID: form.UserEmailID,
-//           // Password: form.Password,
-//         });
+  //     try {
+  //       if (isEdit) {
+  //         await axios.put(`http://localhost:5000/api/owners/${form._id}`, {
+  //           UserName: form.UserName,
+  //           UserGender: form.UserGender,
+  //           UserCNo: form.UserCNo,
+  //           UserEmailID: form.UserEmailID,
+  //           // Password: form.Password,
+  //         });
 
-//         if (form.Password && form.Password.trim() !== "") {
-//   updateData.Password = form.Password;
-// }
+  //         if (form.Password && form.Password.trim() !== "") {
+  //   updateData.Password = form.Password;
+  // }
 
-//         await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
+  //         await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
 
-//         await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
-//           HomeID: form.HomeID,
-//         });
+  //         await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
+  //           HomeID: form.HomeID,
+  //         });
 
-//         setMessage("Owner updated successfully!");
-//       } else {
-//         const registerRes = await axios.post(
-//           "http://localhost:5000/api/register-owner",
-//           {
-//             UserName: form.UserName,
-//             UserGender: form.UserGender,
-//             UserCNo: form.UserCNo,
-//             UserEmailID: form.UserEmailID,
-//             Password: form.Password,
-//           }
-//         );
+  //         setMessage("Owner updated successfully!");
+  //       } else {
+  //         const registerRes = await axios.post(
+  //           "http://localhost:5000/api/register-owner",
+  //           {
+  //             UserName: form.UserName,
+  //             UserGender: form.UserGender,
+  //             UserCNo: form.UserCNo,
+  //             UserEmailID: form.UserEmailID,
+  //             Password: form.Password,
+  //           }
+  //         );
 
-//         const ownerId = registerRes.data.owner._id;
+  //         const ownerId = registerRes.data.owner._id;
 
-//         await axios.post("http://localhost:5000/api/assign-home", {
-//           UserID: ownerId,
-//           HomeID: form.HomeID,
-//         });
+  //         await axios.post("http://localhost:5000/api/assign-home", {
+  //           UserID: ownerId,
+  //           HomeID: form.HomeID,
+  //         });
 
-//         setMessage("Owner registered and home assigned successfully!");
-//       }
+  //         setMessage("Owner registered and home assigned successfully!");
+  //       }
 
-//       setForm({
-//         _id: "",
-//         UserName: "",
-//         UserGender: "Male",
-//         UserCNo: "",
-//         UserEmailID: "",
-//         Password: "",
-//         HomeID: "",
-//       });
-//       setIsEdit(false);
-//       fetchOwners();
-//     } catch (error) {
-//       console.error(error);
-//       setMessage(
-//         error.response?.data?.message || "Something went wrong. Try again!"
-//       );
-//     }
-//   };
+  //       setForm({
+  //         _id: "",
+  //         UserName: "",
+  //         UserGender: "Male",
+  //         UserCNo: "",
+  //         UserEmailID: "",
+  //         Password: "",
+  //         HomeID: "",
+  //       });
+  //       setIsEdit(false);
+  //       fetchOwners();
+  //     } catch (error) {
+  //       console.error(error);
+  //       setMessage(
+  //         error.response?.data?.message || "Something went wrong. Try again!"
+  //       );
+  //     }
+  //   };
 
-const validateForm = () => {
-  const { UserName, UserCNo, UserEmailID, Password, HomeID } = form;
+  const validateForm = () => {
+    const { UserName, UserCNo, UserEmailID, Password, HomeID } = form;
 
-  if (!UserName || !UserCNo || !UserEmailID || !HomeID) {
-    setMessage("Please fill all required fields.");
-    return false;
-  }
+    if (!UserName || !UserCNo || !UserEmailID || !HomeID) {
+      setMessage("Please fill all required fields.");
+      return false;
+    }
 
-  if (!/^[a-zA-Z\s]+$/.test(UserName)) {
-    setMessage("Name can only contain letters and spaces.");
-    return false;
-  }
+    if (!/^[a-zA-Z\s]+$/.test(UserName)) {
+      setMessage("Name can only contain letters and spaces.");
+      return false;
+    }
 
-  if (!/^\d{10}$/.test(UserCNo)) {
-    setMessage("Contact number must be 10 digits.");
-    return false;
-  }
+    if (!/^\d{10}$/.test(UserCNo)) {
+      setMessage("Contact number must be 10 digits.");
+      return false;
+    }
 
-  if (
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(UserEmailID)
-  ) {
-    setMessage("Invalid email format.");
-    return false;
-  }
+    if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(UserEmailID)
+    ) {
+      setMessage("Invalid email format.");
+      return false;
+    }
 
-  if (!isEdit && (!Password || Password.length < 6)) {
-    setMessage("Password is required and must be at least 6 characters.");
-    return false;
-  }
+    if (!isEdit && (!Password || Password.length < 6)) {
+      setMessage("Password is required and must be at least 6 characters.");
+      return false;
+    }
 
-  return true;
-};
+    return true;
+  };
 
 
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setMessage("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
 
-  if (!validateForm()) return; // ❌ stop submission if invalid
+    if (!validateForm()) return; // ❌ stop submission if invalid
 
-  try {
-    if (isEdit) {
-      // ✅ Step 1: Build the update payload
-      const updateData = {
-        UserName: form.UserName,
-        UserGender: form.UserGender,
-        UserCNo: form.UserCNo,
-        UserEmailID: form.UserEmailID,
-      };
-
-      if (form.Password && form.Password.trim() !== "") {
-        updateData.Password = form.Password;
-      }
-
-      // ✅ Step 2: Update Owner Info
-      await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
-
-      // ✅ Step 3: Check if the owner already has a home assignment
-      const checkAssign = await axios.get(
-        `http://localhost:5000/api/assign-home/check/${form._id}`
-      );
-
-      if (checkAssign.data.exists) {
-        // 🔹 If already assigned, update it
-        await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
-          HomeID: form.HomeID,
-        });
-      } else {
-        // 🔹 If not assigned (reactivated case), assign new home
-        await axios.post(`http://localhost:5000/api/assign-home`, {
-          UserID: form._id,
-          HomeID: form.HomeID,
-        });
-      }
-
-      setMessage("Owner updated and home assigned successfully!");
-    } else {
-      // ✅ Register new owner
-      const registerRes = await axios.post(
-        "http://localhost:5000/api/register-owner",
-        {
+    try {
+      if (isEdit) {
+        // ✅ Step 1: Build the update payload
+        const updateData = {
           UserName: form.UserName,
           UserGender: form.UserGender,
           UserCNo: form.UserCNo,
           UserEmailID: form.UserEmailID,
-          Password: form.Password,
+        };
+
+        if (form.Password && form.Password.trim() !== "") {
+          updateData.Password = form.Password;
         }
-      );
 
-      const ownerId = registerRes.data.owner._id;
+        // ✅ Step 2: Update Owner Info
+        await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
 
-      // ✅ Assign home to new owner
-      await axios.post("http://localhost:5000/api/assign-home", {
-        UserID: ownerId,
-        HomeID: form.HomeID,
+        // ✅ Step 3: Check if the owner already has a home assignment
+        const checkAssign = await axios.get(
+          `http://localhost:5000/api/assign-home/check/${form._id}`
+        );
+
+        if (checkAssign.data.exists) {
+          // 🔹 If already assigned, update it
+          await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
+            HomeID: form.HomeID,
+          });
+        } else {
+          // 🔹 If not assigned (reactivated case), assign new home
+          await axios.post(`http://localhost:5000/api/assign-home`, {
+            UserID: form._id,
+            HomeID: form.HomeID,
+          });
+        }
+
+        setMessage("Owner updated and home assigned successfully!");
+      } else {
+        // ✅ Register new owner
+        const registerRes = await axios.post(
+          "http://localhost:5000/api/register-owner",
+          {
+            UserName: form.UserName,
+            UserGender: form.UserGender,
+            UserCNo: form.UserCNo,
+            UserEmailID: form.UserEmailID,
+            Password: form.Password,
+          }
+        );
+
+        const ownerId = registerRes.data.owner._id;
+
+        // ✅ Assign home to new owner
+        await axios.post("http://localhost:5000/api/assign-home", {
+          UserID: ownerId,
+          HomeID: form.HomeID,
+        });
+
+        setMessage("Owner registered and home assigned successfully!");
+      }
+
+      // ✅ Reset form and reload data
+      setForm({
+        _id: "",
+        UserName: "",
+        UserGender: "Male",
+        UserCNo: "",
+        UserEmailID: "",
+        Password: "",
+        HomeID: "",
       });
-
-      setMessage("Owner registered and home assigned successfully!");
+      setIsEdit(false);
+      fetchOwners();
+    } catch (error) {
+      console.error(error);
+      setMessage(
+        error.response?.data?.message || "Something went wrong. Try again!"
+      );
     }
-
-    // ✅ Reset form and reload data
-    setForm({
-      _id: "",
-      UserName: "",
-      UserGender: "Male",
-      UserCNo: "",
-      UserEmailID: "",
-      Password: "",
-      HomeID: "",
-    });
-    setIsEdit(false);
-    fetchOwners();
-  } catch (error) {
-    console.error(error);
-    setMessage(
-      error.response?.data?.message || "Something went wrong. Try again!"
-    );
-  }
-};
+  };
 
 
 
@@ -395,27 +554,53 @@ const handleSubmit = async (e) => {
   //   window.scrollTo({ top: 0, behavior: "smooth" });
   // };
 
+  //   const handleEdit = (owner) => {
+  //   setIsEdit(true);
+
+  //   // Include currently assigned home in dropdown if not already in list
+  //   if (owner.Home && !homes.some((h) => h._id === owner.Home._id)) {
+  //     const homeWithStreet = {
+  //       ...owner.Home,
+  //       StreetNumber: owner.Home.StreetNumber || "Unknown"
+  //     };
+  //     setHomes((prevHomes) => [...prevHomes, owner.Home]);
+  //   }
+
+  //   setForm({
+  //     _id: owner._id,
+  //     UserName: owner.UserName,
+  //     UserGender: owner.UserGender,
+  //     UserCNo: owner.UserCNo,
+  //     UserEmailID: owner.UserEmailID,
+  //     Password: "",
+  //     HomeID: owner.Home ? owner.Home._id : "",
+  //   });
+
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // };
+
+
   const handleEdit = (owner) => {
-  setIsEdit(true);
+    setIsEdit(true);
 
-  // Include currently assigned home in dropdown if not already in list
-  if (owner.Home && !homes.some((h) => h._id === owner.Home._id)) {
-    setHomes((prevHomes) => [...prevHomes, owner.Home]);
-  }
+    // Include currently assigned home in dropdown if not already in list
+    if (owner.Home && !homes.some((h) => h._id === owner.Home._id)) {
+      // Use the home data from owner which already has StreetNumber
+      setHomes((prevHomes) => [...prevHomes, owner.Home]);
+    }
 
-  setForm({
-    _id: owner._id,
-    UserName: owner.UserName,
-    UserGender: owner.UserGender,
-    UserCNo: owner.UserCNo,
-    UserEmailID: owner.UserEmailID,
-    Password: "",
-    HomeID: owner.Home ? owner.Home._id : "",
-  });
+    setForm({
+      _id: owner._id,
+      UserName: owner.UserName,
+      UserGender: owner.UserGender,
+      UserCNo: owner.UserCNo,
+      UserEmailID: owner.UserEmailID,
+      Password: "",
+      HomeID: owner.Home ? owner.Home._id : "",
+    });
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div id="owner-page">
@@ -488,29 +673,26 @@ const handleSubmit = async (e) => {
             {isEdit ? "Update Owner" : "Register & Assign"}
           </button>
 
-          
+
         </form>
 
-       <button
-  onClick={() => {
-    setShowInactive(!showInactive);
-    setTimeout(fetchOwners, 100); // refresh after toggle
-  }}
-  style={{
-    background: showInactive ? "#4caf50" : "#9c27b0",
-    color: "white",
-    border: "none",
-    padding: "8px 14px",
-    borderRadius: "6px",
-    cursor: "pointer",
-    marginBottom: "15px",
-  }}
->
-  {showInactive ? "Show Active Owners" : "Show Inactive Owners"}
-</button>
-
-
-
+        <button
+          onClick={() => {
+            setShowInactive(!showInactive);
+            setTimeout(fetchOwners, 100); // refresh after toggle
+          }}
+          style={{
+            background: showInactive ? "#4caf50" : "#9c27b0",
+            color: "white",
+            border: "none",
+            padding: "8px 14px",
+            borderRadius: "6px",
+            cursor: "pointer",
+            marginBottom: "15px",
+          }}
+        >
+          {showInactive ? "Show Active Owners" : "Show Inactive Owners"}
+        </button>
 
 
         <h3>Registered Owners</h3>
@@ -535,12 +717,12 @@ const handleSubmit = async (e) => {
                   <td>{owner.UserGender}</td>
                   <td>
                     {owner.Home
-                      ? `${owner.Home.HomeNumber} - ${owner.Home.StreetNumber}`
+                      ? `Home ${owner.Home.HomeNumber} - Street ${owner.Home.StreetNumber}`
                       : "Not assigned"}
                   </td>
                   <td>
                     <button onClick={() => handleEdit(owner)} className="edit-btn">
-                      ✏️ 
+                      ✏️
                     </button>
                     {/* <button
                       onClick={() => handleDelete(owner._id)}
@@ -549,31 +731,31 @@ const handleSubmit = async (e) => {
                       🗑️ Inactive
                     </button> */}
 
-                    
-  {owner.Status === "Inactive" ? (
-    <button
-      onClick={() => handleActivate(owner._id)}
-      className="activate-btn"
-    >
-      ✅ Activate
-    </button>
-  ) : (
-    <>
-      {/* <button onClick={() => handleEdit(owner)} className="edit-btn">
+
+                    {owner.Status === "Inactive" ? (
+                      <button
+                        onClick={() => handleActivate(owner._id)}
+                        className="activate-btn"
+                      >
+                        ✅ Activate
+                      </button>
+                    ) : (
+                      <>
+                        {/* <button onClick={() => handleEdit(owner)} className="edit-btn">
         ✏️ Edit
       </button> */}
-      <button
-        onClick={() => handleDelete(owner._id)}
-        className="delete-btn"
-      >
-        🗑️ 
-      </button>
-    </>
-  )}
-</td>
+                        <button
+                          onClick={() => handleDelete(owner._id)}
+                          className="delete-btn"
+                        >
+                          🗑️
+                        </button>
+                      </>
+                    )}
+                  </td>
 
 
-                  
+
                 </tr>
               ))}
             </tbody>

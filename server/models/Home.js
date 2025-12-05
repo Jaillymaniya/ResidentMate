@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
 
 const homeSchema = new mongoose.Schema({
-  SocietyID: { type: mongoose.Schema.Types.ObjectId, ref: "Society", required: true },
+  StreetID: { type: mongoose.Schema.Types.ObjectId, ref: "Street", required: true },
   HomePhoto: { type: String, maxlength: 255 }, // optional
   HomeNumber: { type: String, maxlength: 20, required: true },
-  StreetNumber: { type: String, maxlength: 50 },
-  HomeSize: { type: String, maxlength: 20 },
-  HomeType: { type: String, enum: ["1BHK", "2BHK", "3BHK", "4BHK"] },
   Furnishing: { type: String, maxlength: 50 },
   IsRental: { type: Boolean, default: false },
   Status: { type: String, enum: ["Occupied", "Available"], default: "Available" },

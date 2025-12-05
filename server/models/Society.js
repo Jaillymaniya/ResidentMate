@@ -6,6 +6,7 @@ const SocietySchema = new mongoose.Schema({
   City: { type: String, required: true },
   State: { type: String },
   Pincode: { type: String },
+  totalStreet: { type: Number, default: 0 },
   DateCreated: { type: Date, default: Date.now },
   DateUpdated: { type: Date },
 });

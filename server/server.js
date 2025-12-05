@@ -211,6 +211,7 @@ import appointmentRoutes from "./routes/appointmentRoutes.js";
 import complaintRoutes from "./routes/complaintRoutes.js";
 import hallRoutes from "./routes/hallRoute.js";
 import maintenanceRoutes from "./routes/maintenanceRoutes.js";
+import Street from "./routes/streetRoutes.js";
 
 const app = express();
 
@@ -274,6 +275,7 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api", complaintRoutes);
 app.use("/api/halls", hallRoutes);
 app.use("/api", maintenanceRoutes);
+app.use("/api/streets", Street);
 
 // Error handlers
 app.use(errorHandler);
