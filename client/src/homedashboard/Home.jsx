@@ -115,7 +115,7 @@ export default function Home() {
       {/* ---------------- ROW HOUSE SECTION ---------------- */}
       <section className="rowhouse-section">
         <h2 className="section-title">
-          Explore our range of beautifully designed row houses and villas,
+          Explore our range of beautifully designed row houses,
           perfect for modern family living
         </h2>
 
@@ -155,7 +155,7 @@ export default function Home() {
             </div>
 
             <div className="card-body">
-              <h3>🏠 Luxury 3BHK Villa</h3>
+              <h3>🏠 Luxury 3BHK Houses</h3>
               <p>Premium living space with elegant architecture and modern facilities</p>
             </div>
           </div>
@@ -168,7 +168,7 @@ export default function Home() {
             </div>
 
             <div className="card-body">
-              <h3>🏠 Luxury 4BHK Villa</h3>
+              <h3>🏠 Luxury 4BHK Houses</h3>
               <p>Premium living space with full family Luxury architecture and customize options</p>
             </div>
           </div>

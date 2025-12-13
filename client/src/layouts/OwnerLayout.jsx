@@ -341,7 +341,7 @@ export default function OwnerLayout({ children }) {
           </li>
 
           <li>
-            <Link to="/owner/maintenance">💳 Pay Maintenance</Link>
+            <Link to="/owner/active-maintenance">💳 Pay Maintenance</Link>
           </li>
           <li>
             <Link to="/owner/SubmitComplaint">📝 Complaints</Link>
