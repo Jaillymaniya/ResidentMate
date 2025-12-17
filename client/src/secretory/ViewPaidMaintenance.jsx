@@ -105,8 +105,8 @@ export default function PaidMaintenanceList() {
               {payments.map((p, index) => (
                 <tr
                   key={index}
-                  textAlign="left"
                   style={{
+                    textAlign: "left",
                     borderBottom: "1px solid #ddd",
                     cursor: "default",
                   }}

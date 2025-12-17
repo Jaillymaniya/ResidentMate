@@ -53,11 +53,17 @@ export default function RentalProperties() {
     accepted.map(a => a.AssignID?.HomeID?._id?.toString())
   );
 
+  // const filteredHomes = homes.filter(h =>
+  //   (bhk ? h.HomeType === bhk : true) &&
+  //   (furnish ? h.Furnishing.toLowerCase() === furnish.toLowerCase() : true) &&
+  //   !acceptedHomeIds.has(h._id?.toString())
+  // );
   const filteredHomes = homes.filter(h =>
-    (bhk ? h.HomeType === bhk : true) &&
-    (furnish ? h.Furnishing.toLowerCase() === furnish.toLowerCase() : true) &&
-    !acceptedHomeIds.has(h._id?.toString())
-  );
+  (bhk ? h.StreetID?.type === bhk : true) &&
+  (furnish ? h.Furnishing.toLowerCase() === furnish.toLowerCase() : true) &&
+  !acceptedHomeIds.has(h._id?.toString())
+);
+
 
   return (
     <div className="rental-container">
@@ -130,7 +136,7 @@ export default function RentalProperties() {
                   <div className="property-content">
                     <div className="property-header">
                       <h3 className="property-name">
-                        {home.SocietyID?.SocietyName || "N/A"} - {home.HomeNumber}
+                        {home.StreetID?.streetNumber || "N/A"} - Home number : {home.HomeNumber}
                       </h3>
                       <div className="property-price">₹{home.Rent}/month</div>
                     </div>
@@ -142,13 +148,13 @@ export default function RentalProperties() {
                       </div>
                       <div className="detail-item">
                         <span className="detail-icon">🛋️</span>
-                        <span>{home.Furnishing}</span>
+                        <span>Furnishing : {home.Furnishing}</span>
                       </div>
                     </div>
                     
                     <div className="property-features">
-                      <span className="feature-tag">{home.HomeType}</span>
-                      <span className="feature-tag">{home.Furnishing}</span>
+                      <span className="feature-tag">{home.StreetID?.type}</span>
+                      <span className="feature-tag">Home area : {home.StreetID?.homeArea} sqft</span>
                     </div>
                     
                     <button

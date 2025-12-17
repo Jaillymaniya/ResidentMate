@@ -102,7 +102,7 @@ router.get("/rental", async (req, res) => {
     const homes = await Home.find({
       IsRental: true,
       _id: { $nin: tenantAssigned, $in: ownerAssigned }
-    }).populate("SocietyID");
+    }).populate("StreetID");
 
     res.status(200).json(homes);
   } catch (err) {

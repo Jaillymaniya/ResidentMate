@@ -213,6 +213,7 @@ import hallRoutes from "./routes/hallRoute.js";
 import maintenanceRoutes from "./routes/maintenanceRoutes.js";
 import Street from "./routes/streetRoutes.js";
 import payment from "./routes/paymentRoutes.js";
+import repitsRoutes from "./routes/receiptRoutes.js";
 
 const app = express();
 
@@ -278,6 +279,7 @@ app.use("/api/halls", hallRoutes);
 app.use("/api", maintenanceRoutes);
 app.use("/api/streets", Street);
 app.use("/api", payment);
+app.use("/api", repitsRoutes);
 
 // Error handlers
 app.use(errorHandler);
