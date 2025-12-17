@@ -190,8 +190,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { io } from "socket.io-client";
 
-const DEFAULT_AVATAR =
-  "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'>ircle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/>ircle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
+const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
 
 export default function TenantLayout({ children }) {
   const navigate = useNavigate();
