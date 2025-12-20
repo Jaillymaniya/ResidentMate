@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { API_BASE } from "../api.jsx";
+window.API_BASE = API_BASE; // temporary to test
+console.log(window.API_BASE); // should print the backend URL
 
 
 export default function Login() {
