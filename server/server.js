@@ -262,6 +262,8 @@ io.on("connection", (socket) => {
     console.log("🔌 User disconnected:", socket.id);
   });
 });
+app.get("/", (req, res) => res.send("API running..."));
+
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -285,7 +287,7 @@ app.use("/api", repitsRoutes);
 app.use(errorHandler);
 app.use(notFoundHandler);
 
-app.get("/", (req, res) => res.send("API running..."));
+
 
 // MongoDB
 mongoose
