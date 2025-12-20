@@ -220,7 +220,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://front-end-of-residentmate.onrender.com",
     credentials: true,
   })
 );
@@ -234,7 +234,7 @@ app.use("/uploads", express.static(uploadPath));
 const server = http.createServer(app);
 // const io = new Server(server, {
 //   cors: {
-//     origin: "http://localhost:5173",
+//     origin: "https://front-end-of-residentmate.onrender.com",
 //     methods: ["GET", "POST"],
 //     credentials: true,
 //   },
@@ -242,7 +242,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://front-end-of-residentmate.onrender.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
