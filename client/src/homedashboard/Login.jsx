@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_BASE } from "../api";
+import { API_BASE_URL } from "../api";
 
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [API_BASE, setAPI_BASE] = useState("");
   const [otp, setOtp] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [newAPI_BASE, setNewAPI_BASE] = useState("");
   const [message, setMessage] = useState("");
   const [isForgot, setIsForgot] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -47,12 +47,12 @@ export default function Login() {
     setMessage("");
 
     try {
-      const res = await fetch(`https://residentmate.onrender.com/api/auth/login`, {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           UserEmailID: email,
-          Password: password,
+          API_BASE: API_BASE,
         }),
       });
 
@@ -89,17 +89,17 @@ export default function Login() {
           theme: "colored",
         });
 
-        // ✅ Trigger CAPTCHA and block logic only if password is wrong
+        // ✅ Trigger CAPTCHA and block logic only if API_BASE is wrong
         if (data.message && data.message.toLowerCase().includes("invalid")) {
           setLoginAttempts((prev) => {
             const newCount = prev + 1;
 
-            // 🧩 Show CAPTCHA after 1st wrong password
+            // 🧩 Show CAPTCHA after 1st wrong API_BASE
             if (newCount === 1) {
               setShowCaptcha(true);
             }
 
-            // 🚫 Disable login after 3 wrong password attempts
+            // 🚫 Disable login after 3 wrong API_BASE attempts
             if (newCount >= 3) {
               setIsBlocked(true);
 
@@ -142,7 +142,7 @@ export default function Login() {
 
     setMessage("Sending OTP...");
     try {
-      const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+      const res = await fetch(`${API_BASE}/api/auth/forgot-API_BASE`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -167,26 +167,26 @@ export default function Login() {
     if (timer === 0) handleSendOtp();
   };
 
-  // 🟣 Verify OTP & Reset Password
-  const handleResetPassword = async (e) => {
+  // 🟣 Verify OTP & Reset API_BASE
+  const handleResetAPI_BASE = async (e) => {
     e.preventDefault();
-    if (!otp || !newPassword)
-      return setMessage("Please enter OTP and new password");
+    if (!otp || !newAPI_BASE)
+      return setMessage("Please enter OTP and new API_BASE");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/reset-API_BASE`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp, newPassword }),
+        body: JSON.stringify({ email, otp, newAPI_BASE }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        setMessage("✅ Password reset successful! Please login again.");
+        setMessage("✅ API_BASE reset successful! Please login again.");
         setIsForgot(false);
         setOtpSent(false);
         setOtp("");
-        setNewPassword("");
+        setNewAPI_BASE("");
       } else {
         setMessage(data.message || "Invalid or expired OTP ❌");
       }
@@ -279,10 +279,10 @@ export default function Login() {
             required
           />
           <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="API_BASE"
+            placeholder="API_BASE"
+            value={API_BASE}
+            onChange={(e) => setAPI_BASE(e.target.value)}
             style={styles.input}
             required
           />
@@ -294,16 +294,16 @@ export default function Login() {
           </button>
 
           <a onClick={() => setIsForgot(true)} style={styles.link}>
-            Forgot Password?
+            Forgot API_BASE?
           </a>
         </form>
       ) : (
-        // 🟣 FORGOT PASSWORD FORM
+        // 🟣 FORGOT API_BASE FORM
         <form
           style={styles.card}
-          onSubmit={otpSent ? handleResetPassword : (e) => e.preventDefault()}
+          onSubmit={otpSent ? handleResetAPI_BASE : (e) => e.preventDefault()}
         >
-          <h2 style={styles.title}>Reset Password</h2>
+          <h2 style={styles.title}>Reset API_BASE</h2>
           <input
             type="email"
             placeholder="Enter your email"
@@ -327,14 +327,14 @@ export default function Login() {
                 style={styles.input}
               />
               <input
-                type="password"
-                placeholder="Enter New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                type="API_BASE"
+                placeholder="Enter New API_BASE"
+                value={newAPI_BASE}
+                onChange={(e) => setNewAPI_BASE(e.target.value)}
                 style={styles.input}
               />
               <button type="submit" style={styles.button}>
-                Reset Password
+                Reset API_BASE
               </button>
 
               {/* 🔥 Timer and Resend logic */}
