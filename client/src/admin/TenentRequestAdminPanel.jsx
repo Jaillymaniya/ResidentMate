@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AssignHome from "../../../server/models/AssignHome";
 import { API_BASE_URL } from "../api";
 
 const TenantRequestsAdminPanel = () => {
