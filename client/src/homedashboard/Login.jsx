@@ -83,52 +83,52 @@ export default function Login() {
         } else {
           setMessage("Role not recognized ❌");
         }
-      }else {
-  toast.error(data.message || "Invalid credentials ❌", {
-    position: "top-right",
-    autoClose: 2000,
-    theme: "colored",
-  });
+      } else {
+        toast.error(data.message || "Invalid credentials ❌", {
+          position: "top-right",
+          autoClose: 2000,
+          theme: "colored",
+        });
 
-  // ✅ Trigger CAPTCHA and block logic only if password is wrong
-  if (data.message && data.message.toLowerCase().includes("invalid")) {
-  setLoginAttempts((prev) => {
-    const newCount = prev + 1;
+        // ✅ Trigger CAPTCHA and block logic only if password is wrong
+        if (data.message && data.message.toLowerCase().includes("invalid")) {
+          setLoginAttempts((prev) => {
+            const newCount = prev + 1;
 
-    // 🧩 Show CAPTCHA after 1st wrong password
-    if (newCount === 1) {
-      setShowCaptcha(true);
-    }
+            // 🧩 Show CAPTCHA after 1st wrong password
+            if (newCount === 1) {
+              setShowCaptcha(true);
+            }
 
-    // 🚫 Disable login after 3 wrong password attempts
-    if (newCount >= 3) {
-  setIsBlocked(true);
+            // 🚫 Disable login after 3 wrong password attempts
+            if (newCount >= 3) {
+              setIsBlocked(true);
 
-  // ✅ Show toast only once even under React Strict Mode
-  if (!blockToastShownRef.current) {
-    blockToastShownRef.current = true; // mark as shown
-    toast.error("🚫 Too many attempts! Try again after few seconds.", {
-      position: "top-right",
-      autoClose: 3000,
-      theme: "colored",
-    });
-  }
+              // ✅ Show toast only once even under React Strict Mode
+              if (!blockToastShownRef.current) {
+                blockToastShownRef.current = true; // mark as shown
+                toast.error("🚫 Too many attempts! Try again after few seconds.", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  theme: "colored",
+                });
+              }
 
-  // ⏳ Reset block & allow toast again after 10s
-  setTimeout(() => {
-    setIsBlocked(false);
-    blockToastShownRef.current = false; // reset ref for next cycle
-  }, 10000);
+              // ⏳ Reset block & allow toast again after 10s
+              setTimeout(() => {
+                setIsBlocked(false);
+                blockToastShownRef.current = false; // reset ref for next cycle
+              }, 10000);
 
-  return 0; // reset attempts
-}
+              return 0; // reset attempts
+            }
 
 
-    return newCount;
-  });
-}
+            return newCount;
+          });
+        }
 
-}
+      }
 
 
     } catch (error) {
@@ -339,7 +339,7 @@ export default function Login() {
               </button>
 
               {/* 🔥 Timer and Resend logic */}
-              <p style={{ textAlign: "center", marginTop: "10px" ,color: otpExpired ? "red" : "blue"}}>
+              <p style={{ textAlign: "center", marginTop: "10px", color: otpExpired ? "red" : "blue" }}>
                 {timer > 0 ? (
                   <span>⏳ OTP expires in {timer}s</span>
                 ) : otpExpired ? (
@@ -366,45 +366,45 @@ export default function Login() {
 
       {message && <p style={{ color: "red" }}>{message}</p>}
       {showCaptcha && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.6)",
+            backdropFilter: "blur(5px)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
           <div
             style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              background: "rgba(0,0,0,0.6)",
-              backdropFilter: "blur(5px)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 9999,
+              background: "#fff",
+              padding: "20px 40px",
+              borderRadius: "10px",
+              textAlign: "center",
+              boxShadow: "0 0 10px rgba(0,0,0,0.3)",
             }}
           >
-            <div
-              style={{
-                background: "#fff",
-                padding: "20px 40px",
-                borderRadius: "10px",
-                textAlign: "center",
-                boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-              }}
-            >
-              <p style={{ color: "#333", marginBottom: "10px" }}>
-                Please verify: I am not a robot 🤖
-              </p>
-              <label style={{ color: "#333" }}>
-                <input
-                  type="checkbox"
-                  onChange={(e) => e.target.checked && setShowCaptcha(false)}
-                />{" "}
-                I'm not a robot
-              </label>
-            </div>
+            <p style={{ color: "#333", marginBottom: "10px" }}>
+              Please verify: I am not a robot 🤖
+            </p>
+            <label style={{ color: "#333" }}>
+              <input
+                type="checkbox"
+                onChange={(e) => e.target.checked && setShowCaptcha(false)}
+              />{" "}
+              I'm not a robot
+            </label>
           </div>
-        )}
+        </div>
+      )}
 
     </div>
-    
+
   );
 }
