@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function OwnerChangePassword() {
   const [form, setForm] = useState({
@@ -29,12 +29,12 @@ export default function OwnerChangePassword() {
 
     try {
       setLoading(true);
-    //   const res = await axios.put(`${API_BASE_URL}/api/admin/change-password/${adminEmail}`, {
+    //   const res = await axios.put(`${API_BASE}/api/admin/change-password/${adminEmail}`, {
     //     oldPassword: form.oldPassword,
     //     newPassword: form.newPassword,
     //   });
 
-    const res = await axios.put(`${API_BASE_URL}/api/change-password/${adminEmail}`, {
+    const res = await axios.put(`${API_BASE}/api/change-password/${adminEmail}`, {
   oldPassword: form.oldPassword,
   newPassword: form.newPassword,
 });

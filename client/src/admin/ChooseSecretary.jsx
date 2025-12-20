@@ -1,6 +1,6 @@
 // frontend/src/admin/ChooseSecretary.jsx
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function ChooseSecretary() {
   const [owners, setOwners] = useState([]);
@@ -9,7 +9,7 @@ export default function ChooseSecretary() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const API_BASE = `${API_BASE_URL}/api`;
+  const API_BASE = `${API_BASE}/api`;
 
   const tableHeaderStyle = {
     background: "#1a237e",

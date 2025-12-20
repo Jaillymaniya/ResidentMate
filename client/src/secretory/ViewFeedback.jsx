@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function ViewFeedback() {
   const [complaints, setComplaints] = useState([]);
@@ -8,7 +8,7 @@ export default function ViewFeedback() {
   // Fetch all complaints with feedback (backend already sends Feedback field)
   const fetchData = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/complaints`);
+      const res = await fetch(`${API_BASE}/api/complaints`);
       const data = await res.json();
       setComplaints(data);
       setLoading(false);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function PaidMaintenanceList() {
   const [payments, setPayments] = useState([]);
@@ -12,7 +12,7 @@ export default function PaidMaintenanceList() {
 
   const fetchPaidMaintenance = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/paid-maintenance`);
+      const res = await axios.get(`${API_BASE}/api/paid-maintenance`);
       setPayments(res.data);
       setLoading(false);
     } catch (err) {

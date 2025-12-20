@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function ManageMaintenance() {
   const [maintenanceFrom, setMaintenanceFrom] = useState("");
@@ -24,13 +24,13 @@ export default function ManageMaintenance() {
 
   // Load maintenance records
   // useEffect(() => {
-  //   axios.get(`${API_BASE_URL}/api/maintenance`).then((res) => setData(res.data));
+  //   axios.get(`${API_BASE}/api/maintenance`).then((res) => setData(res.data));
   // }, []);
 
   useEffect(() => {
     const url = showDeleted
-      ? `${API_BASE_URL}/api/maintenance/deleted`
-      : `${API_BASE_URL}/api/maintenance`;
+      ? `${API_BASE}/api/maintenance/deleted`
+      : `${API_BASE}/api/maintenance`;
 
     axios.get(url)
       .then(res => setData(res.data))
@@ -46,8 +46,8 @@ export default function ManageMaintenance() {
   //     return;
   //   }
   //   if (editId) {
-  //     // await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, { Amount: amount, DueDate: dueDate });
-  //     await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, { 
+  //     // await axios.put(`${API_BASE}/api/maintenance/${editId}`, { Amount: amount, DueDate: dueDate });
+  //     await axios.put(`${API_BASE}/api/maintenance/${editId}`, { 
   //       Amount: Number(amount),
   //       FromDate: maintenanceFrom,
   //       ToDate: maintenanceTo,
@@ -55,8 +55,8 @@ export default function ManageMaintenance() {
   //     });
 
   //   } else {
-  //     // await axios.post(`${API_BASE_URL}/api/maintenance`, { Amount: amount, DueDate: dueDate });
-  //     await axios.post(`${API_BASE_URL}/api/maintenance`, { 
+  //     // await axios.post(`${API_BASE}/api/maintenance`, { Amount: amount, DueDate: dueDate });
+  //     await axios.post(`${API_BASE}/api/maintenance`, { 
   //       Amount: Number(amount),
   //       FromDate: maintenanceFrom,
   //       ToDate: maintenanceTo,
@@ -79,14 +79,14 @@ export default function ManageMaintenance() {
 
     try {
       if (editId) {
-        await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, {
+        await axios.put(`${API_BASE}/api/maintenance/${editId}`, {
           Amount: Number(amount),
           FromDate: maintenanceFrom,
           ToDate: maintenanceTo,
           DueDate: dueDate
         });
       } else {
-        await axios.post(`${API_BASE_URL}/api/maintenance`, {
+        await axios.post(`${API_BASE}/api/maintenance`, {
           Amount: Number(amount),
           FromDate: maintenanceFrom,
           ToDate: maintenanceTo,
@@ -111,7 +111,7 @@ export default function ManageMaintenance() {
 
   // const handleDelete = async (id) => {
   //   if (window.confirm("Delete this record?")) {
-  //     await axios.delete(`${API_BASE_URL}/api/maintenance/${id}`);
+  //     await axios.delete(`${API_BASE}/api/maintenance/${id}`);
   //     window.location.reload();
   //   }
   // };
@@ -120,7 +120,7 @@ export default function ManageMaintenance() {
     if (!window.confirm("Delete this record?")) return;
 
     try {
-      await axios.delete(`${API_BASE_URL}/api/maintenance/${id}`);
+      await axios.delete(`${API_BASE}/api/maintenance/${id}`);
       window.location.reload();
 
     } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function AppointmentRequests() {
   const [requests, setRequests] = useState([]);
@@ -13,7 +13,7 @@ export default function AppointmentRequests() {
   //     setLoading(false);
   //     return;
   //   }
-  //   fetch(`${API_BASE_URL}/api/appointments/owner?ownerId=${ownerId}`)
+  //   fetch(`${API_BASE}/api/appointments/owner?ownerId=${ownerId}`)
   //     .then((res) => {
   //       if (!res.ok) throw new Error("Failed to fetch appointments");
   //       return res.json();
@@ -39,7 +39,7 @@ export default function AppointmentRequests() {
     }
 
     // STEP 1 → Get owner by email
-    fetch(`${API_BASE_URL}/api/appointments/getOwnerByEmail?email=${email}`)
+    fetch(`${API_BASE}/api/appointments/getOwnerByEmail?email=${email}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch owner");
         return res.json();
@@ -53,7 +53,7 @@ export default function AppointmentRequests() {
 
         // STEP 2 → Get appointments using owner._id
         if (!owner || !owner.ownerId) throw new Error("Owner not found!");
-        return fetch(`${API_BASE_URL}/api/appointments/owner?ownerId=${owner.ownerId}`);
+        return fetch(`${API_BASE}/api/appointments/owner?ownerId=${owner.ownerId}`);
 
       })
       .then((res) => {
@@ -74,7 +74,7 @@ export default function AppointmentRequests() {
 
   const handleStatusChange = (id, status) => {
     console.log(`Updating appointment ${id} to ${status}`);
-    fetch(`${API_BASE_URL}/api/appointments/${id}/status`, {
+    fetch(`${API_BASE}/api/appointments/${id}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status }),
@@ -98,7 +98,7 @@ export default function AppointmentRequests() {
 
   const handleCheckout = (id) => {
     if (window.confirm("Mark this appointment as checkout?")) {
-      fetch(`${API_BASE_URL}/api/appointments/${id}/checkout`, {
+      fetch(`${API_BASE}/api/appointments/${id}/checkout`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" }
       })

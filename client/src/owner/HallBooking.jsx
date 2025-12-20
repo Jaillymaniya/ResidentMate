@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function HallBookingPanel() {
   const [bookings, setBookings] = useState([]);
@@ -20,7 +20,7 @@ export default function HallBookingPanel() {
   // Fetch user's bookings
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/halls/my-bookings/${email}`);
+      const res = await axios.get(`${API_BASE}/api/halls/my-bookings/${email}`);
       setBookings(res.data);
     } catch (err) {
       console.error(err);
@@ -47,14 +47,14 @@ export default function HallBookingPanel() {
     try {
       if (editingId) {
         // Edit booking
-        await axios.put(`${API_BASE_URL}/api/halls/edit/${editingId}`, {
+        await axios.put(`${API_BASE}/api/halls/edit/${editingId}`, {
           ...form,
           email,
         });
         toast.success("Booking updated successfully");
       } else {
         // Add booking
-        await axios.post(`${API_BASE_URL}/api/halls/book`, {
+        await axios.post(`${API_BASE}/api/halls/book`, {
           ...form,
           email,
         });
@@ -84,7 +84,7 @@ export default function HallBookingPanel() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this booking?")) return;
     try {
-      await axios.delete(`${API_BASE_URL}/api/halls/delete/${id}/${email}`);
+      await axios.delete(`${API_BASE}/api/halls/delete/${id}/${email}`);
       toast.success("Booking deleted successfully");
       fetchBookings();
     } catch (err) {

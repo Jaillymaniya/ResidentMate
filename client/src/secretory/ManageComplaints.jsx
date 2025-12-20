@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function ManageComplaints() {
   const [complaints, setComplaints] = useState([]);
@@ -8,7 +8,7 @@ export default function ManageComplaints() {
   // Fetch all complaints for Secretary
   const fetchComplaints = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/api/complaints`);
+      const res = await fetch(`${API_BASE}/api/complaints`);
       const data = await res.json();
       setComplaints(data);
       setLoading(false);
@@ -26,7 +26,7 @@ export default function ManageComplaints() {
   const handleSolve = async (id) => {
     try {
       const res = await fetch(
-        `${API_BASE_URL}/api/complaints/status/${id}`,
+        `${API_BASE}/api/complaints/status/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

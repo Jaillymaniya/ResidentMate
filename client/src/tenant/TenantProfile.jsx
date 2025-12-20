@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {API_BASE_URL} from '../api';
+import {API_BASE} from '../api';
 
 const DEFAULT_AVATAR =
   "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
@@ -48,13 +48,13 @@ export default function TenantProfile() {
     const fetchTenant = async () => {
       try {
         const res = await axios.get(
-          `${API_BASE_URL}/api/tenant/${tenantEmail}`
+          `${API_BASE}/api/tenant/${tenantEmail}`
         );
 
         setTenant(res.data);
 
         if (res.data.Photo) {
-          setPreview(`${API_BASE_URL}/uploads/${res.data.Photo}`);
+          setPreview(`${API_BASE}/uploads/${res.data.Photo}`);
         } else {
           setPreview("");
         }
@@ -90,7 +90,7 @@ export default function TenantProfile() {
       });
 
       await axios.put(
-        `${API_BASE_URL}/api/tenant/update/${tenantEmail}`,
+        `${API_BASE}/api/tenant/update/${tenantEmail}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

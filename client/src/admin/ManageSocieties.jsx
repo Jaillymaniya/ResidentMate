@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 import {
   Table,
@@ -74,7 +74,7 @@ export default function ManageSocieties() {
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const API_URL = `${API_BASE_URL}/api/societies`;
+  const API_URL = `${API_BASE}/api/societies`;
 
   const fetchSocieties = async () => {
     try {

@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/halls/all-bookings`);
+      const res = await axios.get(`${API_BASE}/api/halls/all-bookings`);
       setBookings(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error(err);
@@ -34,7 +34,7 @@ export default function AllBookings() {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`${API_BASE_URL}/api/halls/update-status/${id}`, {
+      await axios.put(`${API_BASE}/api/halls/update-status/${id}`, {
         Status: status,
       });
       toast.success(`Booking ${status.toLowerCase()} successfully!`);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function ManageHomes() {
   const [homes, setHomes] = useState([]);
@@ -16,8 +16,8 @@ export default function ManageHomes() {
   });
   const [editingId, setEditingId] = useState(null);
 
-  const API_URL = `${API_BASE_URL}/api/homes`;
-  const STREET_API = `${API_BASE_URL}/api/streets`;
+  const API_URL = `${API_BASE}/api/homes`;
+  const STREET_API = `${API_BASE}/api/streets`;
 
   const isLocked = () => {
     const home = homes.find(h => h._id === editingId);
@@ -471,7 +471,7 @@ export default function ManageHomes() {
             src={
               form.ExistingPhoto.startsWith("http")
                 ? form.ExistingPhoto
-                : `${API_BASE_URL}/uploads/${form.ExistingPhoto}`
+                : `${API_BASE}/uploads/${form.ExistingPhoto}`
             }
             alt="Current Home"
             className="home-photo"
@@ -624,7 +624,7 @@ export default function ManageHomes() {
                   <img
                     src={h.HomePhoto?.startsWith("http")
                       ? h.HomePhoto
-                      : `${API_BASE_URL}/uploads/${h.HomePhoto}`}
+                      : `${API_BASE}/uploads/${h.HomePhoto}`}
                     alt="Home"
                     className="home-photo"
                   />

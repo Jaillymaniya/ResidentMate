@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 const TenantRequestsAdminPanel = () => {
   const [requests, setRequests] = useState([]);
@@ -58,7 +58,7 @@ const TenantRequestsAdminPanel = () => {
     }
 
     try {
-      await axios.post(`${API_BASE_URL}/api/appointments/registerTenant`, {
+      await axios.post(`${API_BASE}/api/appointments/registerTenant`, {
         appointmentId: appointmentId,
         gender,
         password
@@ -78,7 +78,7 @@ const TenantRequestsAdminPanel = () => {
     if (!window.confirm("Are you sure you want to activate this tenant?")) return;
 
     try {
-      await axios.patch(`${API_BASE_URL}/api/appointments/activateTenant/${tenantId}`);
+      await axios.patch(`${API_BASE}/api/appointments/activateTenant/${tenantId}`);
       setTenants(prev =>
         prev.map(t => t._id === tenantId ? { ...t, Status: "Active" } : t)
       );
@@ -98,7 +98,7 @@ const TenantRequestsAdminPanel = () => {
     }
 
     try {
-      await axios.patch(`${API_BASE_URL}/api/appointments/updateTenant/${editData._id}`, {
+      await axios.patch(`${API_BASE}/api/appointments/updateTenant/${editData._id}`, {
         UserName: editData.UserName,
         UserEmailID: editData.UserEmailID,
         UserCNo: editData.UserCNo,
@@ -120,7 +120,7 @@ const TenantRequestsAdminPanel = () => {
     if (!window.confirm("Are you sure you want to deactivate this tenant?")) return;
 
     try {
-      await axios.patch(`${API_BASE_URL}/api/appointments/deactivateTenant/${tenantId}`);
+      await axios.patch(`${API_BASE}/api/appointments/deactivateTenant/${tenantId}`);
 
       alert("Tenant deactivated successfully!");
       loadRegisteredTenants();
@@ -133,14 +133,14 @@ const TenantRequestsAdminPanel = () => {
 
   // ====================== LOAD ACCEPTED REQUESTS ======================
   const loadAcceptedRequests = () => {
-    axios.get(`${API_BASE_URL}/api/appointments/accepted`)
+    axios.get(`${API_BASE}/api/appointments/accepted`)
       .then((res) => setRequests(res.data))
       .catch((err) => alert("Error fetching accepted requests: " + err.message));
   };
 
   // ====================== LOAD REGISTERED TENANTS ======================
   const loadRegisteredTenants = () => {
-    axios.get(`${API_BASE_URL}/api/appointments/registeredTenants`)
+    axios.get(`${API_BASE}/api/appointments/registeredTenants`)
       .then((res) => {
         console.log("Registered Tenants Response:", res.data);
         setTenants(res.data);

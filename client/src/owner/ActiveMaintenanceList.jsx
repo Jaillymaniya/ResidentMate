@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 const ActiveMaintenanceList = () => {
   const [maintenance, setMaintenance] = useState([]);
@@ -29,12 +29,12 @@ const ActiveMaintenanceList = () => {
     const fetchPayments = async () => {
       try {
         const assignRes = await axios.get(
-          `${API_BASE_URL}/api/assignid/${ownerEmail}`
+          `${API_BASE}/api/assignid/${ownerEmail}`
         );
         const assignId = assignRes.data.assignId;
 
         const payRes = await axios.get(
-          `${API_BASE_URL}/api/payments/${assignId}`
+          `${API_BASE}/api/payments/${assignId}`
         );
 
         setPayments(payRes.data);
@@ -48,7 +48,7 @@ const ActiveMaintenanceList = () => {
 
   const fetchActiveMaintenance = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/maintenance/active`);
+      const res = await axios.get(`${API_BASE}/api/maintenance/active`);
       setMaintenance(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error("Error loading maintenance", err);
@@ -67,12 +67,12 @@ const ActiveMaintenanceList = () => {
       }
 
       const assignRes = await axios.get(
-        `${API_BASE_URL}/api/assignid/${ownerEmail}`
+        `${API_BASE}/api/assignid/${ownerEmail}`
       );
       const assignId = assignRes.data.assignId;
 
       const orderRes = await axios.post(
-        `${API_BASE_URL}/api/payment/create-order`,
+        `${API_BASE}/api/payment/create-order`,
         {
           amount: item.Amount,
           assignId,
@@ -91,7 +91,7 @@ const ActiveMaintenanceList = () => {
         description: "Monthly Maintenance",
 
         handler: async function (response) {
-          await axios.post(`${API_BASE_URL}/api/payment/verify`, {
+          await axios.post(`${API_BASE}/api/payment/verify`, {
             ...response,
             assignId,
             maintenanceId: item._id,
@@ -101,7 +101,7 @@ const ActiveMaintenanceList = () => {
 
           // Fetch latest payments to get the PaymentID
           const payRes = await axios.get(
-            `${API_BASE_URL}/api/payments/${assignId}`
+            `${API_BASE}/api/payments/${assignId}`
           );
           setPayments(payRes.data);
 
@@ -116,7 +116,7 @@ const ActiveMaintenanceList = () => {
 
           // Download receipt using Payment ID
           const receiptRes = await axios.get(
-            `${API_BASE_URL}/api/receipt/${payment._id}`,
+            `${API_BASE}/api/receipt/${payment._id}`,
             { responseType: "blob" }
           );
 
@@ -224,7 +224,7 @@ const ActiveMaintenanceList = () => {
                                 }
 
                                 const res = await axios.get(
-                                  `${API_BASE_URL}/api/receipt/${payment._id}`,
+                                  `${API_BASE}/api/receipt/${payment._id}`,
                                   { responseType: "blob" }
                                 );
 

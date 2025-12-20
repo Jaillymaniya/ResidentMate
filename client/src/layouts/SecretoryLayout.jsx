@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
 
@@ -18,10 +18,10 @@ export default function SecretaryLayout({ children }) {
     }
     if (email) {
       axios
-        .get(`${API_BASE_URL}/api/secretary/${email}`)
+        .get(`${API_BASE}/api/secretary/${email}`)
         .then(res => {
           if (res.data.Photo) {
-            setPhotoUrl(`${API_BASE_URL}/uploads/${res.data.Photo}`);
+            setPhotoUrl(`${API_BASE}/uploads/${res.data.Photo}`);
           } else {
             setPhotoUrl(DEFAULT_AVATAR);
           }

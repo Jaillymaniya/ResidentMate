@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 export default function RentalProperties() {
   const [homes, setHomes] = useState([]);
@@ -11,7 +11,7 @@ export default function RentalProperties() {
   const [furnish, setFurnish] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/homes/rental`)
+    fetch(`${API_BASE}/api/homes/rental`)
       .then(res => res.json())
       .then(data => setHomes(data))
       .catch(err => {
@@ -19,7 +19,7 @@ export default function RentalProperties() {
         console.error("Failed to fetch rental homes:", err);
       });
 
-    fetch(`${API_BASE_URL}/api/appointments/accepted`)
+    fetch(`${API_BASE}/api/appointments/accepted`)
       .then(res => res.json())
       .then(data => setAccepted(data))
       .catch(() => setAccepted([]));
@@ -35,7 +35,7 @@ export default function RentalProperties() {
       alert("Please enter a valid 10-digit contact number.");
       return;
     }
-    fetch(`${API_BASE_URL}/api/appointments/public`, {
+    fetch(`${API_BASE}/api/appointments/public`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, homeId: selectedHome._id })
