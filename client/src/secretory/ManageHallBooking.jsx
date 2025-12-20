@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_BASE_URL } from "../api";
 
 export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/halls/all-bookings");
+      const res = await axios.get(`${API_BASE_URL}/api/halls/all-bookings`);
       setBookings(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.error(err);
@@ -22,18 +23,18 @@ export default function AllBookings() {
   }, []);
 
   const formatDate = (dateStr) => {
-  const date = new Date(dateStr);
-  const day = date.getUTCDate().toString().padStart(2, "0");
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
-  const year = date.getUTCFullYear();
-  return `${day}-${month}-${year}`;
-};
+    const date = new Date(dateStr);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  };
 
 
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/halls/update-status/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/halls/update-status/${id}`, {
         Status: status,
       });
       toast.success(`Booking ${status.toLowerCase()} successfully!`);

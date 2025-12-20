@@ -1,6 +1,6 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function ManageMaintenance() {
   const [maintenanceFrom, setMaintenanceFrom] = useState("");
@@ -24,18 +24,18 @@ export default function ManageMaintenance() {
 
   // Load maintenance records
   // useEffect(() => {
-  //   axios.get("http://localhost:5000/api/maintenance").then((res) => setData(res.data));
+  //   axios.get(`${API_BASE_URL}/api/maintenance`).then((res) => setData(res.data));
   // }, []);
 
   useEffect(() => {
-  const url = showDeleted 
-    ? "http://localhost:5000/api/maintenance/deleted"
-    : "http://localhost:5000/api/maintenance";
+    const url = showDeleted
+      ? `${API_BASE_URL}/api/maintenance/deleted`
+      : `${API_BASE_URL}/api/maintenance`;
 
-  axios.get(url)
-    .then(res => setData(res.data))
-    .catch(err => console.error(err));
-}, [showDeleted]);
+    axios.get(url)
+      .then(res => setData(res.data))
+      .catch(err => console.error(err));
+  }, [showDeleted]);
 
 
   // const handleSubmit = async (e) => {
@@ -46,8 +46,8 @@ export default function ManageMaintenance() {
   //     return;
   //   }
   //   if (editId) {
-  //     // await axios.put(`http://localhost:5000/api/maintenance/${editId}`, { Amount: amount, DueDate: dueDate });
-  //     await axios.put(`http://localhost:5000/api/maintenance/${editId}`, { 
+  //     // await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, { Amount: amount, DueDate: dueDate });
+  //     await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, { 
   //       Amount: Number(amount),
   //       FromDate: maintenanceFrom,
   //       ToDate: maintenanceTo,
@@ -55,8 +55,8 @@ export default function ManageMaintenance() {
   //     });
 
   //   } else {
-  //     // await axios.post("http://localhost:5000/api/maintenance", { Amount: amount, DueDate: dueDate });
-  //     await axios.post("http://localhost:5000/api/maintenance", { 
+  //     // await axios.post(`${API_BASE_URL}/api/maintenance`, { Amount: amount, DueDate: dueDate });
+  //     await axios.post(`${API_BASE_URL}/api/maintenance`, { 
   //       Amount: Number(amount),
   //       FromDate: maintenanceFrom,
   //       ToDate: maintenanceTo,
@@ -68,73 +68,73 @@ export default function ManageMaintenance() {
   // };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault();
+    setError("");
 
-  // Frontend validation
-  if (!dueDate || new Date(dueDate) <= new Date(todayISO)) {
-    setError("❌ Please select a future Due Date!");
-    return;
-  }
-
-  try {
-    if (editId) {
-      await axios.put(`http://localhost:5000/api/maintenance/${editId}`, {
-        Amount: Number(amount),
-        FromDate: maintenanceFrom,
-        ToDate: maintenanceTo,
-        DueDate: dueDate
-      });
-    } else {
-      await axios.post("http://localhost:5000/api/maintenance", {
-        Amount: Number(amount),
-        FromDate: maintenanceFrom,
-        ToDate: maintenanceTo,
-        DueDate: dueDate
-      });
+    // Frontend validation
+    if (!dueDate || new Date(dueDate) <= new Date(todayISO)) {
+      setError("❌ Please select a future Due Date!");
+      return;
     }
 
-    window.location.reload();
+    try {
+      if (editId) {
+        await axios.put(`${API_BASE_URL}/api/maintenance/${editId}`, {
+          Amount: Number(amount),
+          FromDate: maintenanceFrom,
+          ToDate: maintenanceTo,
+          DueDate: dueDate
+        });
+      } else {
+        await axios.post(`${API_BASE_URL}/api/maintenance`, {
+          Amount: Number(amount),
+          FromDate: maintenanceFrom,
+          ToDate: maintenanceTo,
+          DueDate: dueDate
+        });
+      }
 
-  } catch (err) {
-    // SHOW backend message here
-    if (err.response?.data?.message) {
-      setError("❌ " + err.response.data.message);
-    } else if (err.response?.data?.error) {
-      setError("❌ " + err.response.data.error);
-    } else {
-      setError("❌ Something went wrong!");
+      window.location.reload();
+
+    } catch (err) {
+      // SHOW backend message here
+      if (err.response?.data?.message) {
+        setError("❌ " + err.response.data.message);
+      } else if (err.response?.data?.error) {
+        setError("❌ " + err.response.data.error);
+      } else {
+        setError("❌ Something went wrong!");
+      }
     }
-  }
-};
+  };
 
 
   // const handleDelete = async (id) => {
   //   if (window.confirm("Delete this record?")) {
-  //     await axios.delete(`http://localhost:5000/api/maintenance/${id}`);
+  //     await axios.delete(`${API_BASE_URL}/api/maintenance/${id}`);
   //     window.location.reload();
   //   }
   // };
 
   const handleDelete = async (id) => {
-  if (!window.confirm("Delete this record?")) return;
+    if (!window.confirm("Delete this record?")) return;
 
-  try {
-    await axios.delete(`http://localhost:5000/api/maintenance/${id}`);
-    window.location.reload();
+    try {
+      await axios.delete(`${API_BASE_URL}/api/maintenance/${id}`);
+      window.location.reload();
 
-  } catch (err) {
+    } catch (err) {
 
-    const backendMessage =
-      err.response?.data?.message ||
-      err.response?.data?.error ||
-      err.response?.data?.msg ||
-      err.response?.data?.details ||
-      err.message;
+      const backendMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.response?.data?.msg ||
+        err.response?.data?.details ||
+        err.message;
 
-    setError("❌ " + backendMessage);
-  }
-};
+      setError("❌ " + backendMessage);
+    }
+  };
 
 
   const startEdit = (rec) => {
@@ -311,7 +311,7 @@ export default function ManageMaintenance() {
           required
         />
         <label>From</label>
-        <input 
+        <input
           type="date"
           value={maintenanceFrom}
           onChange={(e) => setMaintenanceFrom(e.target.value)}
@@ -319,7 +319,7 @@ export default function ManageMaintenance() {
         />
 
         <label>To</label>
-        <input 
+        <input
           type="date"
           value={maintenanceTo}
           onChange={(e) => setMaintenanceTo(e.target.value)}
@@ -353,15 +353,15 @@ export default function ManageMaintenance() {
         </div>
       </form>
       {error && <div style={{ color: "#e41e3f", fontWeight: "500", margin: "-20px 0 20px 2px" }}>{error}</div>}
-          <div style={{ marginBottom: "12px" }}>
-  <label>
-    <input 
-      type="checkbox" 
-      checked={showDeleted} 
-      onChange={(e) => setShowDeleted(e.target.checked)} 
-    /> Show Deleted Records
-  </label>
-</div>
+      <div style={{ marginBottom: "12px" }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={showDeleted}
+            onChange={(e) => setShowDeleted(e.target.checked)}
+          /> Show Deleted Records
+        </label>
+      </div>
 
       <table className="maintenance-table">
         <thead>
@@ -389,15 +389,15 @@ export default function ManageMaintenance() {
                 </div>
               </td> */}
               <td>
-  <div className="row-actions">
-    {!showDeleted && (
-      <>
-        <button className="action-btn edit" onClick={() => startEdit(rec)}>Edit</button>
-        <button className="action-btn delete" onClick={() => handleDelete(rec._id)}>Delete</button>
-      </>
-    )}
-  </div>
-</td>
+                <div className="row-actions">
+                  {!showDeleted && (
+                    <>
+                      <button className="action-btn edit" onClick={() => startEdit(rec)}>Edit</button>
+                      <button className="action-btn delete" onClick={() => handleDelete(rec._id)}>Delete</button>
+                    </>
+                  )}
+                </div>
+              </td>
 
             </tr>
           ))}

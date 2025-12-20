@@ -1,63 +1,6 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-
-// export default function PaidMaintenanceList() {
-//   const [payments, setPayments] = useState([]);
-
-//   useEffect(() => {
-//     fetchPaidMaintenance();
-//   }, []);
-
-//   const fetchPaidMaintenance = async () => {
-//     try {
-//       const res = await axios.get("http://localhost:5000/api/paid-maintenance");
-//       setPayments(res.data);
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <h2>Paid Maintenance List</h2>
-//       <table border="1" cellPadding="10" style={{ width: "100%", borderCollapse: "collapse" }}>
-//         <thead>
-//           <tr>
-//             <th>Owner Name</th>
-//             <th>Email</th>
-//             <th>Contact</th>
-//             <th>Maintenance Period</th>
-//             <th>Amount Paid</th>
-//             <th>Transaction ID</th>
-//             <th>Payment Date</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {payments.length === 0 ? (
-//             <tr>
-//               <td colSpan="7" style={{ textAlign: "center" }}>No payments found</td>
-//             </tr>
-//           ) : (
-//             payments.map((p, index) => (
-//               <tr key={index}>
-//                 <td>{p.ownerName}</td>
-//                 <td>{p.email}</td>
-//                 <td>{p.contact}</td>
-//                 <td>{p.maintenancePeriod}</td>
-//                 <td>₹{p.amount}</td>
-//                 <td>{p.transactionId}</td>
-//                 <td>{new Date(p.paymentDate).toLocaleDateString()}</td>
-//               </tr>
-//             ))
-//           )}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function PaidMaintenanceList() {
   const [payments, setPayments] = useState([]);
@@ -69,7 +12,7 @@ export default function PaidMaintenanceList() {
 
   const fetchPaidMaintenance = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/paid-maintenance");
+      const res = await axios.get(`${API_BASE_URL}/api/paid-maintenance`);
       setPayments(res.data);
       setLoading(false);
     } catch (err) {

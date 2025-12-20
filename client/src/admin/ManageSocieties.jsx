@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
+
 import {
   Table,
   TableBody,
@@ -57,22 +59,22 @@ export default function ManageSocieties() {
   });
 
   // Add this with other state declarations
-    const [formErrors, setFormErrors] = useState({
-      SocietyName: "",
-      Area: "",
-      City: "",
-      State: "",
-      Pincode: "",
-      totalStreets: "",
-      streets: []
-    });
+  const [formErrors, setFormErrors] = useState({
+    SocietyName: "",
+    Area: "",
+    City: "",
+    State: "",
+    Pincode: "",
+    totalStreets: "",
+    streets: []
+  });
 
   const [totalStreets, setTotalStreets] = useState(0);
   const [streets, setStreets] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const API_URL = "http://localhost:5000/api/societies";
+  const API_URL = `${API_BASE_URL}/api/societies`;
 
   const fetchSocieties = async () => {
     try {
@@ -117,32 +119,32 @@ export default function ManageSocieties() {
   //   }, [totalStreets, editingId]);
 
   // Separate useEffect for when editing starts
-useEffect(() => {
-  // This effect runs only when editingId changes
-  if (editingId && streets.length > 0) {
-    // When we're editing and streets are loaded, set totalStreets to match
-    setTotalStreets(streets.length);
-  }
-}, [editingId, streets.length]);
-
-// Separate effect for handling totalStreets changes
-useEffect(() => {
-  // Only handle totalStreets changes when NOT editing (for create mode)
-  if (!editingId) {
-    if (totalStreets > 0) {
-      const newStreets = Array(totalStreets).fill().map((_, index) => ({
-        streetNumber: `Street ${index + 1}`,
-        streetArea: "",
-        totalHome: "",
-        homeArea: "",
-        type: "2BHK",
-      }));
-      setStreets(newStreets);
-    } else if (totalStreets === 0) {
-      setStreets([]);
+  useEffect(() => {
+    // This effect runs only when editingId changes
+    if (editingId && streets.length > 0) {
+      // When we're editing and streets are loaded, set totalStreets to match
+      setTotalStreets(streets.length);
     }
-  }
-}, [totalStreets, editingId]);
+  }, [editingId, streets.length]);
+
+  // Separate effect for handling totalStreets changes
+  useEffect(() => {
+    // Only handle totalStreets changes when NOT editing (for create mode)
+    if (!editingId) {
+      if (totalStreets > 0) {
+        const newStreets = Array(totalStreets).fill().map((_, index) => ({
+          streetNumber: `Street ${index + 1}`,
+          streetArea: "",
+          totalHome: "",
+          homeArea: "",
+          type: "2BHK",
+        }));
+        setStreets(newStreets);
+      } else if (totalStreets === 0) {
+        setStreets([]);
+      }
+    }
+  }, [totalStreets, editingId]);
 
   const showSnackbar = (message, severity = "success") => {
     if (severity === "error") {
@@ -165,7 +167,7 @@ useEffect(() => {
       totalStreets: "",
       streets: Array(streets.length).fill({})
     };
-    
+
     let isValid = true;
 
     // Society Name validation
@@ -219,22 +221,22 @@ useEffect(() => {
     // Street validation
     streets.forEach((street, index) => {
       const streetErrors = {};
-      
+
       if (!street.streetNumber?.trim()) {
         streetErrors.streetNumber = "Street number is required";
         isValid = false;
       }
-      
+
       if (!street.streetArea || street.streetArea <= 0) {
         streetErrors.streetArea = "Valid street area is required";
         isValid = false;
       }
-      
+
       if (!street.totalHome || street.totalHome <= 0) {
         streetErrors.totalHome = "Valid home count is required";
         isValid = false;
       }
-      
+
       errors.streets[index] = streetErrors;
     });
 
@@ -251,16 +253,16 @@ useEffect(() => {
   //   setForm(prev => ({ ...prev, [name]: value }));
   // };
   const handleChange = (e) => {
-  const { name, value } = e.target;
-  
-  // Clear error for this field
-  setFormErrors(prev => ({
-    ...prev,
-    [name]: ""
-  }));
-  
-  setForm(prev => ({ ...prev, [name]: value }));
-};
+    const { name, value } = e.target;
+
+    // Clear error for this field
+    setFormErrors(prev => ({
+      ...prev,
+      [name]: ""
+    }));
+
+    setForm(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleStreetChange = (index, field, value) => {
     const newStreets = [...streets];
@@ -274,9 +276,9 @@ useEffect(() => {
     setSuccessMsg("");
 
     if (!validateForm()) {
-    showSnackbar("Please fix the validation errors", "error");
-    return;
-  }
+      showSnackbar("Please fix the validation errors", "error");
+      return;
+    }
 
     setLoading(true);
 
@@ -351,7 +353,7 @@ useEffect(() => {
           type: st.type,
         }))
       );
-      
+
       // Scroll to form
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
@@ -400,9 +402,9 @@ useEffect(() => {
               Manage societies and their street details
             </Typography>
           </Box>
-          <Chip 
-            label={`${societies.length} Societies`} 
-            color="primary" 
+          <Chip
+            label={`${societies.length} Societies`}
+            color="primary"
             variant="outlined"
             sx={{ fontSize: '1rem', padding: '8px 16px' }}
           />
@@ -526,7 +528,7 @@ useEffect(() => {
                       variant="outlined"
                       error={!!formErrors.Pincode}
                       helperText={formErrors.Pincode}
-                      inputProps={{ 
+                      inputProps={{
                         maxLength: 6,
                         pattern: "[0-9]*"
                       }}
@@ -546,12 +548,12 @@ useEffect(() => {
 
               {/* Total Streets Input (Create Mode Only) */}
               {/* {!editingId && ( */}
-                <Box sx={{ mb: 4, p: 3, bgcolor: '#e3f2fd', borderRadius: 2, border: '1px dashed #ced9e5ff' }}>
-                  <Typography variant="h6" sx={{ mb: 2, color: '#125293ff', display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <StreetIcon />
-                    Total Number of Streets
-                  </Typography>
-                  {/* <TextField
+              <Box sx={{ mb: 4, p: 3, bgcolor: '#e3f2fd', borderRadius: 2, border: '1px dashed #ced9e5ff' }}>
+                <Typography variant="h6" sx={{ mb: 2, color: '#125293ff', display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <StreetIcon />
+                  Total Number of Streets
+                </Typography>
+                {/* <TextField
                     type="number"
                     label="Number of Streets"
                     value={totalStreets}
@@ -563,46 +565,46 @@ useEffect(() => {
                     error={!!formErrors.totalStreets}
                     
                   /> */}
-                  <TextField
-  type="number"
-  label="Number of Streets"
-  value={totalStreets}
-  onChange={(e) => {
-    const newValue = Math.max(0, parseInt(e.target.value) || 0);
-    
-    if (editingId) {
-      // When editing, handle street addition/removal manually
-      if (newValue > totalStreets) {
-        // Add new streets
-        const streetsToAdd = newValue - totalStreets;
-        const newStreets = Array(streetsToAdd).fill().map((_, index) => ({
-          streetNumber: `Street ${streets.length + index + 1}`,
-          streetArea: "",
-          totalHome: "",
-          homeArea: "",
-          type: "2BHK",
-        }));
-        setStreets([...streets, ...newStreets]);
-      } else if (newValue < totalStreets) {
-        // Remove extra streets (keep first 'newValue' streets)
-        setStreets(streets.slice(0, newValue));
-      }
-    }
-    
-    setTotalStreets(newValue);
-    // Clear error when user starts typing
-    setFormErrors(prev => ({
-      ...prev,
-      totalStreets: ""
-    }));
-  }}
-  inputProps={{ min: 0, max: 40 }}
-  variant="outlined"
-  sx={{ width: 200 }}
-  helperText={formErrors.totalStreets || "Enter 1-40 streets"}
-  error={!!formErrors.totalStreets}
-/>
-                </Box>
+                <TextField
+                  type="number"
+                  label="Number of Streets"
+                  value={totalStreets}
+                  onChange={(e) => {
+                    const newValue = Math.max(0, parseInt(e.target.value) || 0);
+
+                    if (editingId) {
+                      // When editing, handle street addition/removal manually
+                      if (newValue > totalStreets) {
+                        // Add new streets
+                        const streetsToAdd = newValue - totalStreets;
+                        const newStreets = Array(streetsToAdd).fill().map((_, index) => ({
+                          streetNumber: `Street ${streets.length + index + 1}`,
+                          streetArea: "",
+                          totalHome: "",
+                          homeArea: "",
+                          type: "2BHK",
+                        }));
+                        setStreets([...streets, ...newStreets]);
+                      } else if (newValue < totalStreets) {
+                        // Remove extra streets (keep first 'newValue' streets)
+                        setStreets(streets.slice(0, newValue));
+                      }
+                    }
+
+                    setTotalStreets(newValue);
+                    // Clear error when user starts typing
+                    setFormErrors(prev => ({
+                      ...prev,
+                      totalStreets: ""
+                    }));
+                  }}
+                  inputProps={{ min: 0, max: 40 }}
+                  variant="outlined"
+                  sx={{ width: 200 }}
+                  helperText={formErrors.totalStreets || "Enter 1-40 streets"}
+                  error={!!formErrors.totalStreets}
+                />
+              </Box>
               {/* )} */}
 
               {/* Street Forms */}
@@ -698,8 +700,8 @@ useEffect(() => {
                               </Grid>
                             </Grid>
                             {street.streetArea && street.totalHome && (
-                              <Alert 
-                                severity="success" 
+                              <Alert
+                                severity="success"
                                 icon={<CheckCircleIcon />}
                                 sx={{ mt: 2 }}
                               >
@@ -789,10 +791,10 @@ useEffect(() => {
                           <TableCell>{society.City}</TableCell>
                           <TableCell>{society.State || "-"}</TableCell>
                           <TableCell>
-                            <Chip 
-                              label={`${society.streets?.length || 0} streets`} 
-                              size="small" 
-                              color="primary" 
+                            <Chip
+                              label={`${society.streets?.length || 0} streets`}
+                              size="small"
+                              color="primary"
                               variant="outlined"
                             />
                           </TableCell>
@@ -817,7 +819,7 @@ useEffect(() => {
                             </Box>
                           </TableCell>
                         </TableRow>
-                        
+
                         {/* Street Details Row */}
                         {society.streets && society.streets.length > 0 && (
                           <TableRow sx={{ bgcolor: '#fafafa' }}>
@@ -885,9 +887,9 @@ useEffect(() => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity={snackbarSeverity} 
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
           sx={{ width: '100%' }}
         >
           {snackbarSeverity === 'success' ? successMsg : errorMsg}

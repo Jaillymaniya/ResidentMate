@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api";
 
 export default function ViewAnnouncement() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/announcements")
+    fetch(`${API_BASE_URL}/api/announcements`)
       .then((res) => {
         if (!res.ok) throw new Error("API not found");
         return res.json();

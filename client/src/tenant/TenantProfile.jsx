@@ -1,157 +1,6 @@
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
-
-// const DEFAULT_AVATAR =
-//   "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
-
-// export default function TenantProfile() {
-//   const [tenant, setTenant] = useState({
-//     UserName: "",
-//     UserGender: "Male",
-//     UserCNo: "",
-//     UserEmailID: "",
-//     Photo: "",
-//   });
-
-//   const [preview, setPreview] = useState("");
-//   const [loading, setLoading] = useState(true);
-//   const [message, setMessage] = useState("");
-
-//   const tenantEmail = localStorage.getItem("email");
-
-//   useEffect(() => {
-//     const fetchTenant = async () => {
-//       try {
-//         const res = await axios.get(
-//           `http://localhost:5000/api/tenant/${tenantEmail}`
-//         );
-
-//         setTenant(res.data);
-
-//         if (res.data.Photo) {
-//           setPreview(`http://localhost:5000/uploads/${res.data.Photo}`);
-//         } else {
-//           setPreview("");
-//         }
-
-//         setLoading(false);
-//       } catch (err) {
-//         console.log(err);
-//         setLoading(false);
-//       }
-//     };
-
-//     if (tenantEmail) fetchTenant();
-//   }, [tenantEmail]);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setTenant({ ...tenant, [name]: value });
-//   };
-
-//   const handleFileChange = (e) => {
-//     const file = e.target.files[0];
-//     setTenant({ ...tenant, Photo: file });
-//     setPreview(URL.createObjectURL(file));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       const formData = new FormData();
-//       Object.keys(tenant).forEach((key) => {
-//         formData.append(key, tenant[key]);
-//       });
-
-//       await axios.put(
-//         `http://localhost:5000/api/tenant/update/${tenantEmail}`,
-//         formData,
-//         {
-//           headers: { "Content-Type": "multipart/form-data" },
-//         }
-//       );
-
-//       setMessage("✅ Tenant profile updated successfully!");
-//       window.location.reload();
-//     } catch {
-//       setMessage("❌ Failed to update profile!");
-//     }
-//   };
-
-//   if (loading) return <div className="loading">Loading Profile...</div>;
-
-//   return (
-//     <div className="admin-profile-container">
-//       <div className="admin-card">
-//         <h2>🏠 Tenant Profile</h2>
-
-//         <div className="profile-photo">
-//           <img src={preview || DEFAULT_AVATAR} alt="Tenant" />
-//         </div>
-
-//         <form onSubmit={handleSubmit}>
-//           <label>User Name</label>
-//           <input
-//             type="text"
-//             name="UserName"
-//             value={tenant.UserName}
-//             onChange={handleChange}
-//           />
-
-//           <label>Gender</label>
-//           <select
-//             name="UserGender"
-//             value={tenant.UserGender}
-//             onChange={handleChange}
-//           >
-//             <option>Male</option>
-//             <option>Female</option>
-//             <option>Other</option>
-//           </select>
-
-//           <label>Contact No</label>
-//           <input
-//             type="text"
-//             name="UserCNo"
-//             value={tenant.UserCNo}
-//             onChange={handleChange}
-//           />
-
-//           <label>Email ID</label>
-//           <input
-//             type="email"
-//             name="UserEmailID"
-//             value={tenant.UserEmailID}
-//             readOnly
-//             style={{ backgroundColor: "#eee" }}
-//           />
-
-//           <label>Photo</label>
-//           <input type="file" accept="image/*" onChange={handleFileChange} />
-
-//           <button className="update-btn" type="submit">
-//             Update Profile
-//           </button>
-//         </form>
-
-//         {message && (
-//           <div
-//             className="message"
-//             style={{ color: message.includes("success") ? "green" : "red" }}
-//           >
-//             {message}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {API_BASE_URL} from '../api';
 
 const DEFAULT_AVATAR =
   "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
@@ -199,13 +48,13 @@ export default function TenantProfile() {
     const fetchTenant = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/tenant/${tenantEmail}`
+          `${API_BASE_URL}/api/tenant/${tenantEmail}`
         );
 
         setTenant(res.data);
 
         if (res.data.Photo) {
-          setPreview(`http://localhost:5000/uploads/${res.data.Photo}`);
+          setPreview(`${API_BASE_URL}/uploads/${res.data.Photo}`);
         } else {
           setPreview("");
         }
@@ -241,7 +90,7 @@ export default function TenantProfile() {
       });
 
       await axios.put(
-        `http://localhost:5000/api/tenant/update/${tenantEmail}`,
+        `${API_BASE_URL}/api/tenant/update/${tenantEmail}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

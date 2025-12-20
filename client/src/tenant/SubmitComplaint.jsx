@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function AddComplaint() {
   const [description, setDescription] = useState("");
@@ -19,7 +20,7 @@ export default function AddComplaint() {
   const fetchOwnerId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/complaints/getOwnerByEmail?email=${email}`
+        `${API_BASE_URL}/api/complaints/getOwnerByEmail?email=${email}`
       );
       setOwnerId(res.data.ownerId);
       return res.data.ownerId;
@@ -32,7 +33,7 @@ export default function AddComplaint() {
   const loadComplaints = async (id) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/complaints/owner?ownerId=${id}`
+        `${API_BASE_URL}/api/complaints/owner?ownerId=${id}`
       );
       setComplaints(res.data);
     } catch (err) {
@@ -60,12 +61,12 @@ export default function AddComplaint() {
     try {
       if (editId) {
         await axios.put(
-          `http://localhost:5000/api/complaints/edit/${editId}`,
+          `${API_BASE_URL}/api/complaints/edit/${editId}`,
           { ComplaintDescription: description }
         );
         setMessage("Complaint Updated Successfully");
       } else {
-        await axios.post("http://localhost:5000/api/complaints/add", {
+        await axios.post(`${API_BASE_URL}/api/complaints/add`, {
           ComplaintDescription: description,
           UserID: ownerId,
         });
@@ -84,7 +85,7 @@ export default function AddComplaint() {
   // Delete complaint
   const handleDelete = async (id) => {
     if (!confirm("Are you sure?")) return;
-    await axios.delete(`http://localhost:5000/api/complaints/delete/${id}`);
+    await axios.delete(`${API_BASE_URL}/api/complaints/delete/${id}`);
     loadComplaints(ownerId);
   };
 
@@ -102,7 +103,7 @@ export default function AddComplaint() {
     }
 
     try {
-      await axios.post(`http://localhost:5000/api/feedback/add`, {
+      await axios.post(`${API_BASE_URL}/api/feedback/add`, {
         ComplaintID: feedbackComplaintId,
         UserID: ownerId,
         Rating: rating,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_BASE_URL } from "../api";
 
 export default function HallBookingPanel() {
   const [bookings, setBookings] = useState([]);
@@ -19,7 +20,7 @@ export default function HallBookingPanel() {
   // Fetch user's bookings
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/halls/my-bookings/${email}`);
+      const res = await axios.get(`${API_BASE_URL}/api/halls/my-bookings/${email}`);
       setBookings(res.data);
     } catch (err) {
       console.error(err);
@@ -46,14 +47,14 @@ export default function HallBookingPanel() {
     try {
       if (editingId) {
         // Edit booking
-        await axios.put(`http://localhost:5000/api/halls/edit/${editingId}`, {
+        await axios.put(`${API_BASE_URL}/api/halls/edit/${editingId}`, {
           ...form,
           email,
         });
         toast.success("Booking updated successfully");
       } else {
         // Add booking
-        await axios.post("http://localhost:5000/api/halls/book", {
+        await axios.post(`${API_BASE_URL}/api/halls/book`, {
           ...form,
           email,
         });
@@ -83,7 +84,7 @@ export default function HallBookingPanel() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this booking?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/halls/delete/${id}/${email}`);
+      await axios.delete(`${API_BASE_URL}/api/halls/delete/${id}/${email}`);
       toast.success("Booking deleted successfully");
       fetchBookings();
     } catch (err) {
@@ -95,7 +96,7 @@ export default function HallBookingPanel() {
   return (
     <div className="hall-booking-container">
       <ToastContainer />
-      
+
       {/* Header Section */}
       <div className="booking-header">
         <h1 className="main-title">Hall Booking Management</h1>
@@ -119,7 +120,7 @@ export default function HallBookingPanel() {
                 className="form-input"
               />
             </div>
-            
+
             <div className="form-group">
               <label>To Date</label>
               <input
@@ -164,11 +165,11 @@ export default function HallBookingPanel() {
               {editingId ? "Update Booking" : "Book Hall"}
             </button>
             {editingId && (
-              <button 
-                type="button" 
-                onClick={() => { 
-                  setEditingId(null); 
-                  setForm({ FromDate: "", ToDate: "", EventName: "", Purpose: "" }); 
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingId(null);
+                  setForm({ FromDate: "", ToDate: "", EventName: "", Purpose: "" });
                 }}
                 className="cancel-btn"
               >
@@ -222,9 +223,9 @@ export default function HallBookingPanel() {
                         >
                           Edit
                         </button>
-                        <button onClick={() => handleDelete(b._id)} 
-                        className="delete-btn" 
-                        disabled={b.Status === "Rejected" || b.Status === "Approved"}
+                        <button onClick={() => handleDelete(b._id)}
+                          className="delete-btn"
+                          disabled={b.Status === "Rejected" || b.Status === "Approved"}
                         >
                           Delete
                         </button>

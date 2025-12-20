@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function TenantChangePassword() {
   const [form, setForm] = useState({
@@ -28,15 +29,15 @@ export default function TenantChangePassword() {
 
     try {
       setLoading(true);
-    //   const res = await axios.put(`http://localhost:5000/api/admin/change-password/${adminEmail}`, {
-    //     oldPassword: form.oldPassword,
-    //     newPassword: form.newPassword,
-    //   });
+      //   const res = await axios.put(`${API_BASE_URL}/api/admin/change-password/${adminEmail}`, {
+      //     oldPassword: form.oldPassword,
+      //     newPassword: form.newPassword,
+      //   });
 
-    const res = await axios.put(`http://localhost:5000/api/change-password/${adminEmail}`, {
-  oldPassword: form.oldPassword,
-  newPassword: form.newPassword,
-});
+      const res = await axios.put(`${API_BASE_URL}/api/change-password/${adminEmail}`, {
+        oldPassword: form.oldPassword,
+        newPassword: form.newPassword,
+      });
 
 
       setMessage(res.data.message);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function OwnerRegistration() {
   const [form, setForm] = useState({
@@ -22,7 +23,7 @@ export default function OwnerRegistration() {
   // const handleDelete = async (ownerId) => {
   //   if (window.confirm("Are you sure you want to inactive this owner?")) {
   //     try {
-  //       await axios.delete(`http://localhost:5000/api/owners/${ownerId}`);
+  //       await axios.delete(`${API_BASE_URL}/api/owners/${ownerId}`);
   //       setMessage("Owner Inactive successfully!");
   //       fetchOwners();
   //     } catch (err) {
@@ -35,7 +36,7 @@ export default function OwnerRegistration() {
   const handleDelete = async (ownerId) => {
     if (window.confirm("Are you sure you want to inactivate this owner?")) {
       try {
-        await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
+        await axios.put(`${API_BASE_URL}/api/owners/status/${ownerId}`, {
           status: "Inactive",
         });
         setMessage("Owner inactivated successfully!");
@@ -50,7 +51,7 @@ export default function OwnerRegistration() {
 
   // const fetchOwners = async () => {
   //   try {
-  //     const res = await axios.get("http://localhost:5000/api/owners-with-homes");
+  //     const res = await axios.get(`${API_BASE_URL}/api/owners-with-homes`);
   //     setOwnerList(res.data);
   //   } catch (err) {
   //     console.error(err);
@@ -61,8 +62,8 @@ export default function OwnerRegistration() {
   //   const fetchOwners = async () => {
   //   try {
   //     const [ownersRes, homesRes] = await Promise.all([
-  //       axios.get("http://localhost:5000/api/owners-with-homes"),
-  //       axios.get("http://localhost:5000/api/homes/available"),
+  //       axios.get(`${API_BASE_URL}/api/owners-with-homes`),
+  //       axios.get(`${API_BASE_URL}/api/homes/available`),
   //     ]);
 
   //     const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
@@ -88,13 +89,13 @@ export default function OwnerRegistration() {
   //     const fetchOwners = async () => {
   //   try {
   //     const ownersURL = showInactive
-  //       ? "http://localhost:5000/api/inactive-owners-with-homes"
-  //       : "http://localhost:5000/api/owners-with-homes";
+  //       ? `${API_BASE_URL}/api/inactive-owners-with-homes`
+  //       : `${API_BASE_URL}/api/owners-with-homes`;
 
   //     const [ownersRes, homesRes] = await Promise.all([
   //       axios.get(ownersURL),
-  //       axios.get("http://localhost:5000/api/homes/available"),
-  //        axios.get("http://localhost:5000/api/streets"),
+  //       axios.get(`${API_BASE_URL}/api/homes/available`),
+  //        axios.get(`${API_BASE_URL}/api/streets`),
   //     ]);
 
   //     const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
@@ -138,13 +139,13 @@ export default function OwnerRegistration() {
   const fetchOwners = async () => {
     try {
       const ownersURL = showInactive
-        ? "http://localhost:5000/api/inactive-owners-with-homes"
-        : "http://localhost:5000/api/owners-with-homes";
+        ? `${API_BASE_URL}/api/inactive-owners-with-homes`
+        : `${API_BASE_URL}/api/owners-with-homes`;
 
       const [ownersRes, homesRes, streetsRes] = await Promise.all([ // ✅ Added streetsRes here
         axios.get(ownersURL),
-        axios.get("http://localhost:5000/api/homes/available"),
-        axios.get("http://localhost:5000/api/streets"),
+        axios.get(`${API_BASE_URL}/api/homes/available`),
+        axios.get(`${API_BASE_URL}/api/streets`),
       ]);
 
       const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
@@ -187,7 +188,7 @@ export default function OwnerRegistration() {
   const handleActivate = async (ownerId) => {
     if (window.confirm("Do you want to activate this owner again?")) {
       try {
-        await axios.put(`http://localhost:5000/api/owners/status/${ownerId}`, {
+        await axios.put(`${API_BASE_URL}/api/owners/status/${ownerId}`, {
           status: "Active",
         });
         setMessage("Owner activated successfully!");
@@ -205,7 +206,7 @@ export default function OwnerRegistration() {
   // useEffect(() => {
   //   fetchOwners();
   //   axios
-  //     .get("http://localhost:5000/api/homes/available")
+  //     .get(`${API_BASE_URL}/api/homes/available`)
   //     .then((res) => setHomes(res.data))
   //     .catch((err) => console.log(err));
   // }, []);
@@ -214,9 +215,9 @@ export default function OwnerRegistration() {
   //   const loadData = async () => {
   //     try {
   //       const [ownersRes, homesRes] = await Promise.all([
-  //         axios.get("http://localhost:5000/api/owners-with-homes"),
-  //         axios.get("http://localhost:5000/api/homes/available"),
-  //         axios.get("http://localhost:5000/api/streets"),
+  //         axios.get(`${API_BASE_URL}/api/owners-with-homes`),
+  //         axios.get(`${API_BASE_URL}/api/homes/available`),
+  //         axios.get(`${API_BASE_URL}/api/streets`),
   //       ]);
 
   //       const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
@@ -272,9 +273,9 @@ export default function OwnerRegistration() {
     const loadData = async () => {
       try {
         const [ownersRes, homesRes, streetsRes] = await Promise.all([ // ✅ Added streetsRes here
-          axios.get("http://localhost:5000/api/owners-with-homes"),
-          axios.get("http://localhost:5000/api/homes/available"),
-          axios.get("http://localhost:5000/api/streets"),
+          axios.get(`${API_BASE_URL}/api/owners-with-homes`),
+          axios.get(`${API_BASE_URL}/api/homes/available`),
+          axios.get(`${API_BASE_URL}/api/streets`),
         ]);
 
         const owners = Array.isArray(ownersRes.data) ? ownersRes.data : [];
@@ -356,7 +357,7 @@ export default function OwnerRegistration() {
 
   //     try {
   //       if (isEdit) {
-  //         await axios.put(`http://localhost:5000/api/owners/${form._id}`, {
+  //         await axios.put(`${API_BASE_URL}/api/owners/${form._id}`, {
   //           UserName: form.UserName,
   //           UserGender: form.UserGender,
   //           UserCNo: form.UserCNo,
@@ -368,16 +369,16 @@ export default function OwnerRegistration() {
   //   updateData.Password = form.Password;
   // }
 
-  //         await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
+  //         await axios.put(`${API_BASE_URL}/api/owners/${form._id}`, updateData);
 
-  //         await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
+  //         await axios.put(`${API_BASE_URL}/api/assign-home/${form._id}`, {
   //           HomeID: form.HomeID,
   //         });
 
   //         setMessage("Owner updated successfully!");
   //       } else {
   //         const registerRes = await axios.post(
-  //           "http://localhost:5000/api/register-owner",
+  //           `${API_BASE_URL}/api/register-owner`,
   //           {
   //             UserName: form.UserName,
   //             UserGender: form.UserGender,
@@ -389,7 +390,7 @@ export default function OwnerRegistration() {
 
   //         const ownerId = registerRes.data.owner._id;
 
-  //         await axios.post("http://localhost:5000/api/assign-home", {
+  //         await axios.post(`${API_BASE_URL}/api/assign-home`, {
   //           UserID: ownerId,
   //           HomeID: form.HomeID,
   //         });
@@ -472,21 +473,21 @@ export default function OwnerRegistration() {
         }
 
         // ✅ Step 2: Update Owner Info
-        await axios.put(`http://localhost:5000/api/owners/${form._id}`, updateData);
+        await axios.put(`${API_BASE_URL}/api/owners/${form._id}`, updateData);
 
         // ✅ Step 3: Check if the owner already has a home assignment
         const checkAssign = await axios.get(
-          `http://localhost:5000/api/assign-home/check/${form._id}`
+          `${API_BASE_URL}/api/assign-home/check/${form._id}`
         );
 
         if (checkAssign.data.exists) {
           // 🔹 If already assigned, update it
-          await axios.put(`http://localhost:5000/api/assign-home/${form._id}`, {
+          await axios.put(`${API_BASE_URL}/api/assign-home/${form._id}`, {
             HomeID: form.HomeID,
           });
         } else {
           // 🔹 If not assigned (reactivated case), assign new home
-          await axios.post(`http://localhost:5000/api/assign-home`, {
+          await axios.post(`${API_BASE_URL}/api/assign-home`, {
             UserID: form._id,
             HomeID: form.HomeID,
           });
@@ -496,7 +497,7 @@ export default function OwnerRegistration() {
       } else {
         // ✅ Register new owner
         const registerRes = await axios.post(
-          "http://localhost:5000/api/register-owner",
+          `${API_BASE_URL}/api/register-owner`,
           {
             UserName: form.UserName,
             UserGender: form.UserGender,
@@ -509,7 +510,7 @@ export default function OwnerRegistration() {
         const ownerId = registerRes.data.owner._id;
 
         // ✅ Assign home to new owner
-        await axios.post("http://localhost:5000/api/assign-home", {
+        await axios.post(`${API_BASE_URL}/api/assign-home`, {
           UserID: ownerId,
           HomeID: form.HomeID,
         });

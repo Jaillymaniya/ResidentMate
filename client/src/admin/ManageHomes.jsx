@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../api";
 
 export default function ManageHomes() {
   const [homes, setHomes] = useState([]);
@@ -15,8 +16,8 @@ export default function ManageHomes() {
   });
   const [editingId, setEditingId] = useState(null);
 
-  const API_URL = "http://localhost:5000/api/homes";
-  const STREET_API = "http://localhost:5000/api/streets";
+  const API_URL = `${API_BASE_URL}/api/homes`;
+  const STREET_API = `${API_BASE_URL}/api/streets`;
 
   const isLocked = () => {
     const home = homes.find(h => h._id === editingId);
@@ -34,15 +35,15 @@ export default function ManageHomes() {
       const streetsRes = await axios.get(STREET_API);
       const streetList = streetsRes.data.data || [];
       setStreets(streetList);
-      
+
       // Fetch homes
       const homesRes = await axios.get(API_URL);
-      
+
       // Map homes with street data
       const mappedHomes = homesRes.data.map((h) => {
         const street = streetList.find(s => s._id === h.StreetID);
-        return { 
-          ...h, 
+        return {
+          ...h,
           StreetNumber: street?.streetNumber || "-"
         };
       });
@@ -53,7 +54,7 @@ export default function ManageHomes() {
       });
 
       setHomes(mappedHomes);
-      
+
     } catch (err) {
       console.error("Error loading data:", err);
       setHomes([]);
@@ -64,15 +65,15 @@ export default function ManageHomes() {
   // Calculate total homes that can be in each street based on capacity
   const calculateStreetRanges = () => {
     if (streets.length === 0) return [];
-    
+
     // Sort streets by streetNumber
-    const sortedStreets = [...streets].sort((a, b) => 
+    const sortedStreets = [...streets].sort((a, b) =>
       a.streetNumber.localeCompare(b.streetNumber, undefined, { numeric: true })
     );
-    
+
     let startNumber = 1;
     const ranges = [];
-    
+
     for (const street of sortedStreets) {
       const endNumber = startNumber + street.totalHome - 1;
       ranges.push({
@@ -85,27 +86,27 @@ export default function ManageHomes() {
       });
       startNumber = endNumber + 1;
     }
-    
+
     return ranges;
   };
 
   // Get next home number (continuous across all streets)
   const getNextHomeNumber = () => {
     if (homes.length === 0) return "1";
-    
+
     // Get all home numbers and convert to numbers
     const homeNumbers = homes
       .map(h => parseInt(h.HomeNumber))
       .filter(num => !isNaN(num))
       .sort((a, b) => a - b);
-    
+
     // Find first missing number
     for (let i = 1; i <= homeNumbers.length + 1; i++) {
       if (!homeNumbers.includes(i)) {
         return i.toString();
       }
     }
-    
+
     // If no missing numbers, return next number
     return (homeNumbers.length + 1).toString();
   };
@@ -114,13 +115,13 @@ export default function ManageHomes() {
   const getStreetForHomeNumber = (homeNumber) => {
     const ranges = calculateStreetRanges();
     const num = parseInt(homeNumber);
-    
+
     for (const range of ranges) {
       if (num >= range.startNumber && num <= range.endNumber) {
         return range.streetId;
       }
     }
-    
+
     // If home number exceeds all ranges, return first street
     return ranges[0]?.streetId || "";
   };
@@ -129,12 +130,12 @@ export default function ManageHomes() {
   const getNextAvailable = () => {
     const ranges = calculateStreetRanges();
     if (ranges.length === 0) return { streetId: "", homeNumber: "1" };
-    
+
     // Get all existing home numbers
     const existingHomeNumbers = homes
       .map(h => parseInt(h.HomeNumber))
       .filter(num => !isNaN(num));
-    
+
     // Find first missing number
     for (let i = 1; i <= ranges[ranges.length - 1].endNumber; i++) {
       if (!existingHomeNumbers.includes(i)) {
@@ -150,7 +151,7 @@ export default function ManageHomes() {
         }
       }
     }
-    
+
     // If no missing numbers, find next available in any street
     for (const range of ranges) {
       const homesInThisStreet = homes.filter(h => h.StreetID === range.streetId);
@@ -159,7 +160,7 @@ export default function ManageHomes() {
         const streetHomeNumbers = homesInThisStreet
           .map(h => parseInt(h.HomeNumber))
           .filter(num => !isNaN(num));
-        
+
         for (let i = range.startNumber; i <= range.endNumber; i++) {
           if (!streetHomeNumbers.includes(i)) {
             return { streetId: range.streetId, homeNumber: i.toString() };
@@ -167,7 +168,7 @@ export default function ManageHomes() {
         }
       }
     }
-    
+
     // All streets are full
     return { streetId: ranges[0].streetId, homeNumber: "1" };
   };
@@ -176,7 +177,7 @@ export default function ManageHomes() {
   useEffect(() => {
     if (!editingId && streets.length > 0) {
       const { streetId, homeNumber } = getNextAvailable();
-      
+
       // Auto-fill the form
       setForm(prev => ({
         ...prev,
@@ -188,11 +189,11 @@ export default function ManageHomes() {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-    
+
     if (name === "HomeNumber") {
       // Allow only numbers
       if (!/^\d*$/.test(value)) return;
-      
+
       // Update StreetID based on home number
       if (value && !editingId) {
         const streetId = getStreetForHomeNumber(value);
@@ -219,16 +220,16 @@ export default function ManageHomes() {
       // When street changes, keep current home number if it's valid for new street
       const ranges = calculateStreetRanges();
       const selectedRange = ranges.find(r => r.streetId === value);
-      
+
       if (selectedRange) {
         const currentHomeNum = parseInt(form.HomeNumber);
         let newHomeNumber = form.HomeNumber;
-        
+
         // If current home number is outside new street's range, use first available
         if (currentHomeNum < selectedRange.startNumber || currentHomeNum > selectedRange.endNumber) {
           const homesInStreet = homes.filter(h => h.StreetID === value);
           const streetHomeNumbers = homesInStreet.map(h => parseInt(h.HomeNumber));
-          
+
           for (let i = selectedRange.startNumber; i <= selectedRange.endNumber; i++) {
             if (!streetHomeNumbers.includes(i)) {
               newHomeNumber = i.toString();
@@ -236,7 +237,7 @@ export default function ManageHomes() {
             }
           }
         }
-        
+
         setForm(prev => ({
           ...prev,
           [name]: value,
@@ -256,54 +257,54 @@ export default function ManageHomes() {
       alert("Home Number is required!");
       return;
     }
-    
+
     if (!form.Furnishing.trim()) {
       alert("Furnishing type is required!");
       return;
     }
-    
+
     if (!form.StreetID) {
       alert("Please select a street!");
       return;
     }
 
-      // 2. File validation (if editing and no existing photo, require new photo)
+    // 2. File validation (if editing and no existing photo, require new photo)
     if (!editingId && !form.HomePhoto && !form.ExistingPhoto) {
       alert("Please upload a home photo!");
       return;
     }
 
-     // 3. Rental-specific validations
-  if (form.IsRental) {
-    // Validate Rent field
-    if (!form.Rent.trim()) {
-      alert("Rent amount is required for rental homes!");
-      return;
+    // 3. Rental-specific validations
+    if (form.IsRental) {
+      // Validate Rent field
+      if (!form.Rent.trim()) {
+        alert("Rent amount is required for rental homes!");
+        return;
+      }
+
+      const rentAmount = parseFloat(form.Rent);
+      if (isNaN(rentAmount) || rentAmount <= 0) {
+        alert("Please enter a valid rent amount (greater than 0)!");
+        return;
+      }
+
+      if (rentAmount > 1000000) { // Reasonable upper limit
+        alert("Rent amount seems too high. Please enter a reasonable amount!");
+        return;
+      }
+
+      // Validate Tenant Preferred (optional but good to have)
+      if (!form.TenantPreferred.trim()) {
+        const shouldProceed = window.confirm(
+          "Tenant Preferred field is empty. Do you want to proceed without specifying tenant preference?"
+        );
+        if (!shouldProceed) return;
+      }
+    } else {
+      // If not rental, clear rent and tenant preferred
+      setForm(prev => ({ ...prev, Rent: "", TenantPreferred: "" }));
     }
-    
-    const rentAmount = parseFloat(form.Rent);
-    if (isNaN(rentAmount) || rentAmount <= 0) {
-      alert("Please enter a valid rent amount (greater than 0)!");
-      return;
-    }
-    
-    if (rentAmount > 1000000) { // Reasonable upper limit
-      alert("Rent amount seems too high. Please enter a reasonable amount!");
-      return;
-    }
-    
-    // Validate Tenant Preferred (optional but good to have)
-    if (!form.TenantPreferred.trim()) {
-      const shouldProceed = window.confirm(
-        "Tenant Preferred field is empty. Do you want to proceed without specifying tenant preference?"
-      );
-      if (!shouldProceed) return;
-    }
-  } else {
-    // If not rental, clear rent and tenant preferred
-    setForm(prev => ({ ...prev, Rent: "", TenantPreferred: "" }));
-  }
-    
+
     // Check for duplicate home number
     const duplicate = homes.find(
       (h) =>
@@ -320,7 +321,7 @@ export default function ManageHomes() {
     const ranges = calculateStreetRanges();
     const selectedRange = ranges.find(r => r.streetId === form.StreetID);
     const homeNum = parseInt(form.HomeNumber);
-    
+
     if (selectedRange && (homeNum < selectedRange.startNumber || homeNum > selectedRange.endNumber)) {
       alert(`Home number ${form.HomeNumber} is not valid for Street ${selectedRange.streetNumber}. Valid range: ${selectedRange.startNumber} to ${selectedRange.endNumber}`);
       return;
@@ -334,7 +335,7 @@ export default function ManageHomes() {
       // Find next available
       const { streetId, homeNumber } = getNextAvailable();
       const nextStreet = streets.find(s => s._id === streetId);
-      
+
       if (window.confirm(
         `Street ${selectedStreet.streetNumber} is full (${selectedStreet.totalHome} homes). ` +
         `Would you like to add to Street ${nextStreet?.streetNumber || "next available"} with Home #${homeNumber} instead?`
@@ -352,15 +353,15 @@ export default function ManageHomes() {
     }
 
     // 7. Furnishing validation (specific allowed values)
-  const allowedFurnishing = ["fully furnished", "semi furnished", "unfurnished"];
-  const furnishingLower = form.Furnishing.toLowerCase().trim();
-  
-  if (!allowedFurnishing.includes(furnishingLower)) {
-    const shouldProceed = window.confirm(
-      `"${form.Furnishing}" is not a standard furnishing type. Standard types are: Fully Furnished, Semi Furnished, Unfurnished.\nDo you want to proceed anyway?`
-    );
-    if (!shouldProceed) return;
-  }
+    const allowedFurnishing = ["fully furnished", "semi furnished", "unfurnished"];
+    const furnishingLower = form.Furnishing.toLowerCase().trim();
+
+    if (!allowedFurnishing.includes(furnishingLower)) {
+      const shouldProceed = window.confirm(
+        `"${form.Furnishing}" is not a standard furnishing type. Standard types are: Fully Furnished, Semi Furnished, Unfurnished.\nDo you want to proceed anyway?`
+      );
+      if (!shouldProceed) return;
+    }
 
     try {
       const formData = new FormData();
@@ -369,9 +370,9 @@ export default function ManageHomes() {
       }
 
       if (form.IsRental && form.Rent) {
-      formData.set("Rent", parseFloat(form.Rent));
-    }
-      
+        formData.set("Rent", parseFloat(form.Rent));
+      }
+
       if (!editingId) {
         formData.append("Status", "Available");
       }
@@ -399,10 +400,10 @@ export default function ManageHomes() {
         StreetID: streetId,
       });
       setEditingId(null);
-      
+
       // Refresh data
       loadAllData();
-      
+
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -437,7 +438,7 @@ export default function ManageHomes() {
   const getStreetInfo = (streetId) => {
     const street = streets.find(s => s._id === streetId);
     if (!street) return { name: "-", capacity: 0, used: 0 };
-    
+
     const homesInStreet = homes.filter(h => h.StreetID === streetId);
     return {
       name: street.streetNumber,
@@ -470,7 +471,7 @@ export default function ManageHomes() {
             src={
               form.ExistingPhoto.startsWith("http")
                 ? form.ExistingPhoto
-                : `http://localhost:5000/uploads/${form.ExistingPhoto}`
+                : `${API_BASE_URL}/uploads/${form.ExistingPhoto}`
             }
             alt="Current Home"
             className="home-photo"
@@ -518,38 +519,38 @@ export default function ManageHomes() {
         {form.IsRental && (
           <>
             <label className="checkbox-label">
-            Rent:*
-            <input
-              type="number"
-              name="Rent"
-              placeholder="Rent Amount (required)"
-              value={form.Rent}
-              onChange={handleChange}
-              min="1"
-              max="1000000"
-              required={form.IsRental}
-              style={{ borderColor: form.IsRental && !form.Rent ? 'red' : '' }}
-            />
-          </label>
+              Rent:*
+              <input
+                type="number"
+                name="Rent"
+                placeholder="Rent Amount (required)"
+                value={form.Rent}
+                onChange={handleChange}
+                min="1"
+                max="1000000"
+                required={form.IsRental}
+                style={{ borderColor: form.IsRental && !form.Rent ? 'red' : '' }}
+              />
+            </label>
 
-          {form.IsRental && !form.Rent && (
-      <small className="error-text" style={{ color: 'red', fontSize: '12px' }}>
-        Rent amount is required for rental homes
-      </small>
-    )}
+            {form.IsRental && !form.Rent && (
+              <small className="error-text" style={{ color: 'red', fontSize: '12px' }}>
+                Rent amount is required for rental homes
+              </small>
+            )}
 
             <div className="form-group">
-      <label>Tenant Preferred:</label>
-      <input
-        name="TenantPreferred"
-        placeholder="e.g., Family, Bachelors, Couple"
-        value={form.TenantPreferred}
-        onChange={handleChange}
-      />
-      <small className="helper-text">
-        Optional but recommended
-      </small>
-    </div>
+              <label>Tenant Preferred:</label>
+              <input
+                name="TenantPreferred"
+                placeholder="e.g., Family, Bachelors, Couple"
+                value={form.TenantPreferred}
+                onChange={handleChange}
+              />
+              <small className="helper-text">
+                Optional but recommended
+              </small>
+            </div>
           </>
         )}
 
@@ -565,8 +566,8 @@ export default function ManageHomes() {
               const streetHomes = homes.filter(h => h.StreetID === s._id);
               const isFull = streetHomes.length >= s.totalHome;
               return (
-                <option 
-                  key={s._id} 
+                <option
+                  key={s._id}
                   value={s._id}
                   disabled={isFull && !editingId}
                 >
@@ -587,13 +588,13 @@ export default function ManageHomes() {
       </form>
 
       <h3>All Homes (Continuous Numbering Across Streets)</h3>
-      
+
       {/* Show street ranges */}
       <div className="street-ranges">
         <h4>Street Number Ranges:</h4>
         {calculateStreetRanges().map((range) => (
           <div key={range.streetId} className="range-item">
-            <strong>Street {range.streetNumber}:</strong> Homes {range.startNumber} to {range.endNumber} 
+            <strong>Street {range.streetNumber}:</strong> Homes {range.startNumber} to {range.endNumber}
             ({range.capacity} homes capacity)
           </div>
         ))}
@@ -613,7 +614,7 @@ export default function ManageHomes() {
             <th>Actions</th>
           </tr>
         </thead>
-        
+
         <tbody>
           {homes.map((h) => (
             <tr key={h._id}>
@@ -623,7 +624,7 @@ export default function ManageHomes() {
                   <img
                     src={h.HomePhoto?.startsWith("http")
                       ? h.HomePhoto
-                      : `http://localhost:5000/uploads/${h.HomePhoto}`}
+                      : `${API_BASE_URL}/uploads/${h.HomePhoto}`}
                     alt="Home"
                     className="home-photo"
                   />
@@ -654,7 +655,7 @@ export default function ManageHomes() {
           ))}
         </tbody>
       </table>
-      
+
       <style>{`
         .manage-homes-container { padding: 40px; font-family: 'Segoe UI', sans-serif; background: #f8f9fc; border-radius: 10px; }
         h2, h3, h4 { color: #1a237e; margin-bottom: 20px; }

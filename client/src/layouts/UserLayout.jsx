@@ -8,8 +8,8 @@ export default function UserLayout({ children }) {
       <Header />
       {/* {children} */}
       <main style={{ paddingBottom: "90px" }}>
-  {children}
-</main>
+        {children}
+      </main>
       <Footer />
     </>
   );

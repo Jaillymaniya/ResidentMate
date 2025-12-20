@@ -1,6 +1,6 @@
-
 // frontend/src/admin/ChooseSecretary.jsx
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api";
 
 export default function ChooseSecretary() {
   const [owners, setOwners] = useState([]);
@@ -9,7 +9,7 @@ export default function ChooseSecretary() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const API_BASE = "http://localhost:5000/api";
+  const API_BASE = `${API_BASE_URL}/api`;
 
   const tableHeaderStyle = {
     background: "#1a237e",
@@ -36,7 +36,7 @@ export default function ChooseSecretary() {
     border: "none",
     borderRadius: 6,
     background: "#d32f2f",
-    color : "#fff",
+    color: "#fff",
     fontWeight: "bold",
   };
 
@@ -134,13 +134,13 @@ export default function ChooseSecretary() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2 style={{color:"#1a237e" }}>Choose Secretary</h2>
+      <h2 style={{ color: "#1a237e" }}>Choose Secretary</h2>
 
       <h3>
         Current Secretary:{" "}
-        <span style={{ 
-          color: "#9c27b0", 
-          fontWeight: "bold" 
+        <span style={{
+          color: "#9c27b0",
+          fontWeight: "bold"
         }}>
           {currentSecretaryName}
         </span>
@@ -151,7 +151,7 @@ export default function ChooseSecretary() {
       {loading && <div>Loading...</div>}
 
       <section style={{ marginBottom: 34 }}>
-        <h4 style={{color:"#1a237e" }} >Assigned Secretary (Latest)</h4>
+        <h4 style={{ color: "#1a237e" }} >Assigned Secretary (Latest)</h4>
         <table
           style={{
             width: "100%",

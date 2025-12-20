@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../api";
 
 export default function PostAnnouncement() {
   const [form, setForm] = useState({ Description: "", ProgramDate: "" });
@@ -15,7 +15,7 @@ export default function PostAnnouncement() {
   // ✅ Fetch announcements
   const fetchAnnouncements = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/announcements");
+      const res = await fetch(`${API_BASE_URL}/api/announcements`);
       const data = await res.json();
       setAnnouncements(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -45,7 +45,7 @@ export default function PostAnnouncement() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/announcements/create", {
+      const res = await fetch(`${API_BASE_URL}/api/announcements/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -81,7 +81,7 @@ export default function PostAnnouncement() {
   const handleUpdate = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/announcements/update/${id}`,
+        `${API_BASE_URL}/api/announcements/update/${id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -106,7 +106,7 @@ export default function PostAnnouncement() {
     if (!window.confirm("Are you sure you want to delete this announcement?")) return;
     try {
       const res = await fetch(
-        `http://localhost:5000/api/announcements/delete/${id}`,
+        `${API_BASE_URL}/api/announcements/delete/${id}`,
         { method: "PUT" }
       );
       if (res.ok) {
@@ -122,7 +122,7 @@ export default function PostAnnouncement() {
   const handleRestore = async (id) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/announcements/restore/${id}`,
+        `${API_BASE_URL}/api/announcements/restore/${id}`,
         { method: "PUT" }
       );
       if (res.ok) {
@@ -152,8 +152,8 @@ export default function PostAnnouncement() {
               toast.type === "success"
                 ? "#4caf50"
                 : toast.type === "error"
-                ? "#e53935"
-                : "#1976d2",
+                  ? "#e53935"
+                  : "#1976d2",
             color: "white",
             padding: "15px 25px",
             borderRadius: "8px",
@@ -275,9 +275,8 @@ export default function PostAnnouncement() {
               key={ann._id}
               style={{
                 background: ann.IsActive ? "#f9f9ff" : "#f5f5f5",
-                borderLeft: `6px solid ${
-                  ann.IsActive ? "#2575fc" : "#999"
-                }`,
+                borderLeft: `6px solid ${ann.IsActive ? "#2575fc" : "#999"
+                  }`,
                 padding: "15px 20px",
                 borderRadius: "10px",
                 marginBottom: "15px",

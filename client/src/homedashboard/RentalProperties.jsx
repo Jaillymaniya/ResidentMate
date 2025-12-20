@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api";
 
 export default function RentalProperties() {
   const [homes, setHomes] = useState([]);
@@ -10,7 +11,7 @@ export default function RentalProperties() {
   const [furnish, setFurnish] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/homes/rental")
+    fetch(`${API_BASE_URL}/api/homes/rental`)
       .then(res => res.json())
       .then(data => setHomes(data))
       .catch(err => {
@@ -18,7 +19,7 @@ export default function RentalProperties() {
         console.error("Failed to fetch rental homes:", err);
       });
 
-    fetch("http://localhost:5000/api/appointments/accepted")
+    fetch(`${API_BASE_URL}/api/appointments/accepted`)
       .then(res => res.json())
       .then(data => setAccepted(data))
       .catch(() => setAccepted([]));
@@ -31,10 +32,10 @@ export default function RentalProperties() {
   function handleFormSubmit(e) {
     e.preventDefault();
     if (!/^[0-9]{10}$/.test(form.phone)) {
-    alert("Please enter a valid 10-digit contact number.");
-    return;
-  }
-    fetch("http://localhost:5000/api/appointments/public", {
+      alert("Please enter a valid 10-digit contact number.");
+      return;
+    }
+    fetch(`${API_BASE_URL}/api/appointments/public`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, homeId: selectedHome._id })
@@ -59,10 +60,10 @@ export default function RentalProperties() {
   //   !acceptedHomeIds.has(h._id?.toString())
   // );
   const filteredHomes = homes.filter(h =>
-  (bhk ? h.StreetID?.type === bhk : true) &&
-  (furnish ? h.Furnishing.toLowerCase() === furnish.toLowerCase() : true) &&
-  !acceptedHomeIds.has(h._id?.toString())
-);
+    (bhk ? h.StreetID?.type === bhk : true) &&
+    (furnish ? h.Furnishing.toLowerCase() === furnish.toLowerCase() : true) &&
+    !acceptedHomeIds.has(h._id?.toString())
+  );
 
 
   return (
@@ -80,7 +81,7 @@ export default function RentalProperties() {
       <div className="main-content">
         <div className="content-wrapper">
           <h2 className="section-title">Available Rental Homes</h2>
-          
+
           {/* Fixed Filter Bar */}
           <div className="filter-container">
             <div className="filter-bar">
@@ -94,7 +95,7 @@ export default function RentalProperties() {
                   <option value="4BHK">4BHK</option>
                 </select>
               </div>
-              
+
               <div className="filter-group">
                 <label className="filter-label">Furnishing</label>
                 <select value={furnish} onChange={e => setFurnish(e.target.value)} className="filter-select">
@@ -104,7 +105,7 @@ export default function RentalProperties() {
                   <option value="Semi Furnished">Semi Furnished</option>
                 </select>
               </div>
-              
+
               <div className="results-count">
                 {filteredHomes.length} {filteredHomes.length === 1 ? 'Property' : 'Properties'} Found
               </div>
@@ -132,7 +133,7 @@ export default function RentalProperties() {
                     )}
                     <div className="property-badge">{home.HomeType}</div>
                   </div>
-                  
+
                   <div className="property-content">
                     <div className="property-header">
                       <h3 className="property-name">
@@ -140,7 +141,7 @@ export default function RentalProperties() {
                       </h3>
                       <div className="property-price">₹{home.Rent}/month</div>
                     </div>
-                    
+
                     <div className="property-details">
                       <div className="detail-item">
                         <span className="detail-icon">📐</span>
@@ -151,12 +152,12 @@ export default function RentalProperties() {
                         <span>Furnishing : {home.Furnishing}</span>
                       </div>
                     </div>
-                    
+
                     <div className="property-features">
                       <span className="feature-tag">{home.StreetID?.type}</span>
                       <span className="feature-tag">Home area : {home.StreetID?.homeArea} sqft</span>
                     </div>
-                    
+
                     <button
                       className="cta-button"
                       onClick={() => {
@@ -181,14 +182,14 @@ export default function RentalProperties() {
           <div className="modal-content">
             <div className="modal-header">
               <h3>Schedule Viewing</h3>
-              <button 
+              <button
                 className="modal-close"
                 onClick={() => setShowForm(false)}
               >
                 ×
               </button>
             </div>
-            
+
             <div className="property-preview">
               <div className="preview-image">
                 {selectedHome?.HomePhoto ? (
@@ -216,7 +217,7 @@ export default function RentalProperties() {
                   className="form-input"
                 />
               </div>
-              
+
               <div className="form-group">
                 <label>Email Address</label>
                 <input
@@ -229,7 +230,7 @@ export default function RentalProperties() {
                   className="form-input"
                 />
               </div>
-              
+
               <div className="form-group">
                 <label>Phone Number</label>
                 <input
@@ -241,7 +242,7 @@ export default function RentalProperties() {
                   className="form-input"
                 />
               </div>
-              
+
               <div className="form-actions">
                 <button type="submit" className="submit-button">
                   <span className="button-icon">📅</span>

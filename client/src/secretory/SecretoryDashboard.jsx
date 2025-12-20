@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../api";
 
 // --- Welcome Banner with live date and time ---
 function WelcomeBanner() {
@@ -93,7 +94,7 @@ function Card({ emoji, title, description, to, bottomContent }) {
 function ComplaintsSummaryCard() {
   const [counts, setCounts] = useState({ pending: 0, resolved: 0, total: 0 });
   useEffect(() => {
-    fetch("http://localhost:5000/api/complaints/count")
+    fetch(`${API_BASE_URL}/api/complaints/count`)
       .then(res => res.json())
       .then(data => setCounts(data));
   }, []);
