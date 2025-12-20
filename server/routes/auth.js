@@ -45,36 +45,46 @@ router.post("/register-admin", async (req, res) => {
 // 🔹 Login for any user (Admin / Owner / Tenant / Secretory)
 router.post("/login", async (req, res) => {
   try {
+    console.log("👉 LOGIN API HIT");
+    console.log("👉 Request body:", req.body);
     const { UserEmailID, Password } = req.body;
 
     if (!UserEmailID || !Password) {
+      console.log("❌ Missing email or password");
       return res.status(400).json({ message: "Please enter email and password" });
     }
-
+    console.log("🔍 Finding user in DB...");
     const user = await userModel.findOne({
       UserEmailID: { $regex: `^${UserEmailID}$` }
     });
+     console.log("👤 User found:", user ? user._id : null);
 
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
-
+    
+    console.log("🔐 Comparing password...");
     const isMatch = await bcrypt.compare(Password, user.Password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    console.log("🔐 Password match result:", isMatch);
 
+    console.log("🪙 Generating JWT...");
     // ✅ Generate token
     const token = jwt.sign(
       { id: user._id, role: user.Role },
       JWT_SECRET,
       { expiresIn: "1d" }
     );
-    
+    console.log("✅ JWT generated");
+    console.log("🔎 Checking Secretory role...");
     // ✅ Check if user is also Secretory
     const isSecretory = await secretoryModel.findOne({ UserID: user._id });
+    console.log("🔎 Secretory record:", isSecretory ? "FOUND" : "NOT FOUND");
 
     // ✅ Build roles array
     const roles = [user.Role];
     if (isSecretory && !roles.includes("Secretory")) {
       roles.push("Secretory");
     }
+    console.log("✅ Login success, roles:", roles);
 
     res.status(200).json({
       message: `Welcome ${user.UserName}`,
@@ -85,6 +95,10 @@ router.post("/login", async (req, res) => {
 
   } catch (err) {
     console.error("Login route error:", err);
+    console.error("🔥 LOGIN ROUTE CRASHED 🔥");
+    console.error(err);          // FULL error object
+    console.error(err.message);  // Error message
+    console.error(err.stack);    // Stack trace
     res.status(500).json({ message: "Server error" });
   }
 });
