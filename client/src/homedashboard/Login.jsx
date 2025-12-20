@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_BASE_URL } from "../api";
+import { API_BASE } from "../api";
 
 
 export default function Login() {
   const [email, setEmail] = useState("");
-  const [API_BASE, setAPI_BASE] = useState("");
+  const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
-  const [newAPI_BASE, setNewAPI_BASE] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isForgot, setIsForgot] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -52,7 +52,7 @@ export default function Login() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           UserEmailID: email,
-          API_BASE: API_BASE,
+          Password: password,
         }),
       });
 
@@ -82,52 +82,52 @@ export default function Login() {
         } else {
           setMessage("Role not recognized ❌");
         }
-      } else {
-        toast.error(data.message || "Invalid credentials ❌", {
-          position: "top-right",
-          autoClose: 2000,
-          theme: "colored",
-        });
+      }else {
+  toast.error(data.message || "Invalid credentials ❌", {
+    position: "top-right",
+    autoClose: 2000,
+    theme: "colored",
+  });
 
-        // ✅ Trigger CAPTCHA and block logic only if API_BASE is wrong
-        if (data.message && data.message.toLowerCase().includes("invalid")) {
-          setLoginAttempts((prev) => {
-            const newCount = prev + 1;
+  // ✅ Trigger CAPTCHA and block logic only if password is wrong
+  if (data.message && data.message.toLowerCase().includes("invalid")) {
+  setLoginAttempts((prev) => {
+    const newCount = prev + 1;
 
-            // 🧩 Show CAPTCHA after 1st wrong API_BASE
-            if (newCount === 1) {
-              setShowCaptcha(true);
-            }
+    // 🧩 Show CAPTCHA after 1st wrong password
+    if (newCount === 1) {
+      setShowCaptcha(true);
+    }
 
-            // 🚫 Disable login after 3 wrong API_BASE attempts
-            if (newCount >= 3) {
-              setIsBlocked(true);
+    // 🚫 Disable login after 3 wrong password attempts
+    if (newCount >= 3) {
+  setIsBlocked(true);
 
-              // ✅ Show toast only once even under React Strict Mode
-              if (!blockToastShownRef.current) {
-                blockToastShownRef.current = true; // mark as shown
-                toast.error("🚫 Too many attempts! Try again after few seconds.", {
-                  position: "top-right",
-                  autoClose: 3000,
-                  theme: "colored",
-                });
-              }
+  // ✅ Show toast only once even under React Strict Mode
+  if (!blockToastShownRef.current) {
+    blockToastShownRef.current = true; // mark as shown
+    toast.error("🚫 Too many attempts! Try again after few seconds.", {
+      position: "top-right",
+      autoClose: 3000,
+      theme: "colored",
+    });
+  }
 
-              // ⏳ Reset block & allow toast again after 10s
-              setTimeout(() => {
-                setIsBlocked(false);
-                blockToastShownRef.current = false; // reset ref for next cycle
-              }, 10000);
+  // ⏳ Reset block & allow toast again after 10s
+  setTimeout(() => {
+    setIsBlocked(false);
+    blockToastShownRef.current = false; // reset ref for next cycle
+  }, 10000);
 
-              return 0; // reset attempts
-            }
+  return 0; // reset attempts
+}
 
 
-            return newCount;
-          });
-        }
+    return newCount;
+  });
+}
 
-      }
+}
 
 
     } catch (error) {
@@ -142,7 +142,7 @@ export default function Login() {
 
     setMessage("Sending OTP...");
     try {
-      const res = await fetch(`${API_BASE}/api/auth/forgot-API_BASE`, {
+      const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -167,26 +167,26 @@ export default function Login() {
     if (timer === 0) handleSendOtp();
   };
 
-  // 🟣 Verify OTP & Reset API_BASE
-  const handleResetAPI_BASE = async (e) => {
+  // 🟣 Verify OTP & Reset Password
+  const handleResetPassword = async (e) => {
     e.preventDefault();
-    if (!otp || !newAPI_BASE)
-      return setMessage("Please enter OTP and new API_BASE");
+    if (!otp || !newPassword)
+      return setMessage("Please enter OTP and new password");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/auth/reset-API_BASE`, {
+      const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp, newAPI_BASE }),
+        body: JSON.stringify({ email, otp, newPassword }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        setMessage("✅ API_BASE reset successful! Please login again.");
+        setMessage("✅ Password reset successful! Please login again.");
         setIsForgot(false);
         setOtpSent(false);
         setOtp("");
-        setNewAPI_BASE("");
+        setNewPassword("");
       } else {
         setMessage(data.message || "Invalid or expired OTP ❌");
       }
@@ -279,10 +279,10 @@ export default function Login() {
             required
           />
           <input
-            type="API_BASE"
-            placeholder="API_BASE"
-            value={API_BASE}
-            onChange={(e) => setAPI_BASE(e.target.value)}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             style={styles.input}
             required
           />
@@ -294,16 +294,16 @@ export default function Login() {
           </button>
 
           <a onClick={() => setIsForgot(true)} style={styles.link}>
-            Forgot API_BASE?
+            Forgot Password?
           </a>
         </form>
       ) : (
-        // 🟣 FORGOT API_BASE FORM
+        // 🟣 FORGOT PASSWORD FORM
         <form
           style={styles.card}
-          onSubmit={otpSent ? handleResetAPI_BASE : (e) => e.preventDefault()}
+          onSubmit={otpSent ? handleResetPassword : (e) => e.preventDefault()}
         >
-          <h2 style={styles.title}>Reset API_BASE</h2>
+          <h2 style={styles.title}>Reset Password</h2>
           <input
             type="email"
             placeholder="Enter your email"
@@ -327,18 +327,18 @@ export default function Login() {
                 style={styles.input}
               />
               <input
-                type="API_BASE"
-                placeholder="Enter New API_BASE"
-                value={newAPI_BASE}
-                onChange={(e) => setNewAPI_BASE(e.target.value)}
+                type="password"
+                placeholder="Enter New Password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
                 style={styles.input}
               />
               <button type="submit" style={styles.button}>
-                Reset API_BASE
+                Reset Password
               </button>
 
               {/* 🔥 Timer and Resend logic */}
-              <p style={{ textAlign: "center", marginTop: "10px", color: otpExpired ? "red" : "blue" }}>
+              <p style={{ textAlign: "center", marginTop: "10px" ,color: otpExpired ? "red" : "blue"}}>
                 {timer > 0 ? (
                   <span>⏳ OTP expires in {timer}s</span>
                 ) : otpExpired ? (
@@ -365,45 +365,45 @@ export default function Login() {
 
       {message && <p style={{ color: "red" }}>{message}</p>}
       {showCaptcha && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            background: "rgba(0,0,0,0.6)",
-            backdropFilter: "blur(5px)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 9999,
-          }}
-        >
           <div
             style={{
-              background: "#fff",
-              padding: "20px 40px",
-              borderRadius: "10px",
-              textAlign: "center",
-              boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(5px)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 9999,
             }}
           >
-            <p style={{ color: "#333", marginBottom: "10px" }}>
-              Please verify: I am not a robot 🤖
-            </p>
-            <label style={{ color: "#333" }}>
-              <input
-                type="checkbox"
-                onChange={(e) => e.target.checked && setShowCaptcha(false)}
-              />{" "}
-              I'm not a robot
-            </label>
+            <div
+              style={{
+                background: "#fff",
+                padding: "20px 40px",
+                borderRadius: "10px",
+                textAlign: "center",
+                boxShadow: "0 0 10px rgba(0,0,0,0.3)",
+              }}
+            >
+              <p style={{ color: "#333", marginBottom: "10px" }}>
+                Please verify: I am not a robot 🤖
+              </p>
+              <label style={{ color: "#333" }}>
+                <input
+                  type="checkbox"
+                  onChange={(e) => e.target.checked && setShowCaptcha(false)}
+                />{" "}
+                I'm not a robot
+              </label>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
     </div>
-
+    
   );
 }
