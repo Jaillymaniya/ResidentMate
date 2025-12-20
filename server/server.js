@@ -220,7 +220,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "*",
+    origin: "https://front-end-of-residentmate.onrender.com",
     credentials: true,
   })
 );
