@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { API_BASE } from "../api.jsx";
-window.API_BASE = API_BASE; // temporary to test
-console.log(window.API_BASE); // should print the backend URL
+// import { API_BASE } from "../api.jsx";
+
 
 
 export default function Login() {
@@ -49,7 +48,7 @@ export default function Login() {
     setMessage("");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/login`, {
+      const res = await fetch(`https://residentmate.onrender.com/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -144,7 +143,7 @@ export default function Login() {
 
     setMessage("Sending OTP...");
     try {
-      const res = await fetch(`${API_BASE}/api/auth/forgot-password`, {
+      const res = await fetch(`https://residentmate.onrender.com/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -176,7 +175,7 @@ export default function Login() {
       return setMessage("Please enter OTP and new password");
 
     try {
-      const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
+      const res = await fetch(`https://residentmate.onrender.com/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp, newPassword }),
