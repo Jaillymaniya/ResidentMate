@@ -150,6 +150,7 @@ export default function AdminLayout({ children }) {
         .sidebar .menu li {
           margin: 0.5rem 0;
           margin-left: 10px;
+          margin-bottom: 40px;
         }
         .sidebar .menu a {
           text-decoration: none;
