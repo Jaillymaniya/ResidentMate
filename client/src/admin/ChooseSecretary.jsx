@@ -9,7 +9,7 @@ export default function ChooseSecretary() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  // const API_BASE = `${API_BASE}/api`;
+  const API_BASE_URL = `${API_BASE}/api`;
 
   const tableHeaderStyle = {
     background: "#1a237e",
@@ -43,7 +43,7 @@ export default function ChooseSecretary() {
   const fetchOwners = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/secretory/owners`);
+      const res = await fetch(`${API_BASE_URL}/secretory/owners`);
       const data = await res.json();
       if (data.success) {
         setOwners(data.owners || []);
@@ -60,7 +60,7 @@ export default function ChooseSecretary() {
 
   const fetchSecretaries = async () => {
     try {
-      const res = await fetch(`${API_BASE}/secretory/list`);
+      const res = await fetch(`${API_BASE_URL}/secretory/list`);
       const data = await res.json();
       if (data.success) {
         setSecretaries(data.secretaries || []);
@@ -87,7 +87,7 @@ export default function ChooseSecretary() {
     try {
       setLoading(true);
       setMsg("");
-      const res = await fetch(`${API_BASE}/secretory/assign/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/secretory/assign/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
@@ -112,7 +112,7 @@ export default function ChooseSecretary() {
     if (!window.confirm("Remove this secretary?")) return;
     try {
       setLoading(true);
-      const res = await fetch(`${API_BASE}/secretory/remove/${secId}`, {
+      const res = await fetch(`${API_BASE_URL}/secretory/remove/${secId}`, {
         method: "DELETE",
       });
       const data = await res.json();
