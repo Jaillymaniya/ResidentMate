@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { API_BASE } from "../api";
+import { Outlet } from "react-router-dom";
+
 
 // Default SVG avatar
 const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg width='80' height='80' viewBox='0 0 80 80' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='40' cy='40' r='39' fill='white' stroke='%231877f2' stroke-width='2'/><circle cx='40' cy='30' r='14' fill='black'/><ellipse cx='40' cy='54' rx='22' ry='14' fill='black'/></svg>";
@@ -53,7 +55,7 @@ export default function AdminLayout({ children }) {
           )}
         </div>
         <ul className="menu">
-          <li><Link to="/admindashboard">🏠 Dashboard</Link></li>
+          <li><Link to="/admin/dashboard">🏠 Dashboard</Link></li>
           <li><Link to="/admin/society">🏘 Manage Society</Link></li>
           <li><Link to="/admin/homes">🏡 Manage Homes</Link></li>
           <li><Link to="/admin/owners">👤 Manage Owners</Link></li>
@@ -74,9 +76,13 @@ export default function AdminLayout({ children }) {
             <Link to="/admin/change-password" className="nav-link"> 🔐 Change Password</Link>
           </div>
         </header>
-        <main className="content">
+        {/* <main className="content">
           <div className="page-container">{children}</div>
-        </main>
+        </main> */}
+        <div className="page-container">
+          <Outlet />
+        </div>
+
       </div>
 
       <style>{`
