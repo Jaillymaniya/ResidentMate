@@ -121,7 +121,7 @@ export default function AdminLayout({ children }) {
           position: fixed;
           left: 0;
           top: 0;
-          height: 90vh;
+          height: 40vh;
           width: 260px;
           background: #fff;
           border-right: 1px solid #ddd;
