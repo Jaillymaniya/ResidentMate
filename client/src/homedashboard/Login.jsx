@@ -133,7 +133,7 @@ export default function Login() {
 
     } catch (error) {
       // setMessage("Server error ❌");
-      toast.error("Server error ❌", { position: "top-right" });
+      toast.error("Server error ❌", error, { position: "top-right" });
     }
   };
 
