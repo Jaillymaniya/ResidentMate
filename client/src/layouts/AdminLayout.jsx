@@ -148,9 +148,8 @@ export default function AdminLayout({ children }) {
           flex: 1;
         }
         .sidebar .menu li {
-          margin: 1rem 0;
+          margin: 0.5rem 0;
           margin-left: 10px;
-          // margin-bottom: 20px;
         }
         .sidebar .menu a {
           text-decoration: none;
