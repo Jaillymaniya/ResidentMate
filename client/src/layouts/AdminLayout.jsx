@@ -12,6 +12,7 @@ export default function AdminLayout({ children }) {
   const [sidebarLoading, setSidebarLoading] = useState(true);
 
   useEffect(() => {
+    console.log("API_BASE =", API_BASE);
     const email = localStorage.getItem("email");
     if (!localStorage.getItem("token")) {
       navigate("/login", { replace: true });
@@ -52,7 +53,6 @@ export default function AdminLayout({ children }) {
           )}
         </div>
         <ul className="menu">
-          {console.log("API_BASE:", API_BASE)}
           <li><Link to="/admindashboard">🏠 Dashboard</Link></li>
           <li><Link to="/admin/society">🏘 Manage Society</Link></li>
           <li><Link to="/admin/homes">🏡 Manage Homes</Link></li>
