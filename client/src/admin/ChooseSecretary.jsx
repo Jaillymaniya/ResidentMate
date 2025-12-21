@@ -9,7 +9,7 @@ export default function ChooseSecretary() {
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
-  const API_BASE = `${API_BASE}/api`;
+  // const API_BASE = `${API_BASE}/api`;
 
   const tableHeaderStyle = {
     background: "#1a237e",
