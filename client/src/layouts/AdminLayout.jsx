@@ -75,12 +75,12 @@ export default function AdminLayout({ children }) {
             <Link to="/admin/change-password" className="nav-link"> 🔐 Change Password</Link>
           </div>
         </header>
-        {/* <main className="content">
+        <main className="content">
           <div className="page-container">{children}</div>
-        </main> */}
-        <div className="page-container">
+        </main>
+        {/* <div className="page-container">
           <Outlet />
-        </div>
+        </div> */}
 
       </div>
 
