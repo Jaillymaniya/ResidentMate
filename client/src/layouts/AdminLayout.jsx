@@ -52,12 +52,12 @@ export default function AdminLayout({ children }) {
           )}
         </div>
         <ul className="menu">
-          <li><a href="/admindashboard">🏠 Dashboard</a></li>
-          <li><a href="/admin/society">🏘 Manage Society</a></li>
-          <li><a href="/admin/homes">🏡 Manage Homes</a></li>
-          <li><a href="/admin/owners">👤 Manage Owners</a></li>
-          <li><a href="/admin/tenent-requests">👥 Manage Tenants</a></li>
-          <li><a href="/admin/secretary">📝 Choose Secretary</a></li>
+          <li><Link to="/admindashboard">🏠 Dashboard</Link></li>
+          <li><Link to="/admin/society">🏘 Manage Society</Link></li>
+          <li><Link to="/admin/homes">🏡 Manage Homes</Link></li>
+          <li><Link to="/admin/owners">👤 Manage Owners</Link></li>
+          <li><Link to="/admin/tenent-requests">👥 Manage Tenants</Link></li>
+          <li><Link to="/admin/secretary">📝 Choose Secretary</Link></li>
           <li className="logout">
             <a onClick={handleLogout} href="#" className="logout-link">🚪 Logout</a>
           </li>
