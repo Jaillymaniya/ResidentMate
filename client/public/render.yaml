@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: residentmate-frontend
+    env: static
+    staticPublishPath: client/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
