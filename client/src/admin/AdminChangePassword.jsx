@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { API_BASE } from "../api";
 
+
+// const API_BASE = "https://residentmate.onrender.com" || "http://localhost:5000";
+
 export default function AdminChangePassword() {
   const [form, setForm] = useState({
     oldPassword: "",
