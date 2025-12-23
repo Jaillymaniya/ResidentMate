@@ -177,6 +177,19 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Card 5 */}
+          <div className="rowhouse-card">
+            <div className="card-img">
+              <img src="https://i.ytimg.com/vi/cHRjKNePdtQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLB6OShXvYAEJGlw-28RJ4tUkmRNEA" alt="" />
+              <span className="card-badge">📍 </span>
+            </div>
+
+            <div className="card-body">
+              <h3>🏠 Modern 2BHK Row House</h3>
+              <p>Spacious family home with contemporary design and premium finishes</p>
+            </div>
+          </div>
+
 
         </div>
       </section>
