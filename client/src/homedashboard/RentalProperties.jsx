@@ -275,6 +275,7 @@ export default function RentalProperties() {
   }
         .rental-container {
         width: 100%;
+        max-width: 300px;
         min-height: 100vh;
     display: flex;
     flex-direction: column;
