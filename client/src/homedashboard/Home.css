@@ -79,7 +79,7 @@ body {
 
 .hero-content {
   position: relative;
-  max-width: 900px;
+  /* max-width: 900px; */
   padding: 20px;
 }
 
@@ -164,7 +164,7 @@ body {
 
 .rowhouse-card {
   width: 100%;
-  max-width: 350px;
+  /* max-width: 350px; */
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
@@ -233,7 +233,7 @@ body {
 
 .feature-card {
   width: 100%;
-  max-width: 250px;
+  /* max-width: 250px; */
   padding: 2rem;
   background: white;
   border-radius: 20px;
