@@ -264,8 +264,8 @@ export default function RentalProperties() {
       <style>{`
         
         .rental-container {
-        width: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          width: 100%;
+          background: #f8fafc;
         }
 
         /* Hero Section */
@@ -347,7 +347,6 @@ export default function RentalProperties() {
         // }
 
         .filter-container {
-          max-width: 1200px;
           margin: 0 auto 3rem;
           padding: 2rem 1.5rem;
         }
@@ -475,7 +474,7 @@ export default function RentalProperties() {
 
         .property-header {
           display: flex;
-          justify-content: between;
+          justify-content: space-between;
           align-items: start;
           margin-bottom: 1rem;
         }
@@ -601,7 +600,7 @@ export default function RentalProperties() {
 
         .modal-header {
           display: flex;
-          justify-content: between;
+          justify-content: space-between;
           align-items: center;
           padding: 1.5rem 2rem;
           border-bottom: 1px solid #e2e8f0;
@@ -783,8 +782,15 @@ export default function RentalProperties() {
           .content-wrapper {
             padding: 1rem;
           }
-            
+
         }
+        .hero-inner {
+          max-width: 1200px;
+          width: 100%;
+          padding: 0 1rem;
+          text-align: left;
+        }
+
       `}</style>
     </div>
   );
