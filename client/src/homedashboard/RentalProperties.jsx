@@ -271,7 +271,7 @@ export default function RentalProperties() {
         .rental-hero-section {
           position: relative;
            height: 300px;
-          width: 203vw;
+          width: 100%;
           // background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0n6tOtVq-z6q4TMSXqQbHWrJL_Zg4BptC4w&s");
           display: flex;
           align-items: center;
