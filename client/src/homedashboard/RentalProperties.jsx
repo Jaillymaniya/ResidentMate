@@ -264,7 +264,7 @@ export default function RentalProperties() {
       <style>{`
         
         .rental-container {
-        margin-left: -8px;
+        margin-left: 30px;
         margin-right: -8px;
         width: 100%;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
