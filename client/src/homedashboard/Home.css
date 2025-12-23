@@ -34,6 +34,7 @@ body {
   margin-top: 10px;
   position: relative;
   width: 100%;
+  max-width: 350px;
   min-height: 80vh;
   padding: 1.5rem;
   background: url("https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&w=1920&q=80") center/cover no-repeat;
@@ -164,7 +165,7 @@ body {
 
 .rowhouse-card {
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
   background: white;
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
