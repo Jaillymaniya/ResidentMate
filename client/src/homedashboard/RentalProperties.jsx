@@ -74,7 +74,7 @@ export default function RentalProperties() {
           <h1 className="hero-title">Find Your Dream Home</h1>
           <p className="hero-subtitle">Discover perfect rental properties tailored to your lifestyle</p>
         </div>
-        <div className="hero-background"></div>
+        <div className="rental-hero-background"></div>
       </div>
 
       {/* Main Content */}
@@ -272,6 +272,7 @@ export default function RentalProperties() {
           position: relative;
            height: 300px;
           width: 100%;
+          // background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0n6tOtVq-z6q4TMSXqQbHWrJL_Zg4BptC4w&s");
           display: flex;
           align-items: center;
           justify-content: center;
@@ -319,7 +320,7 @@ export default function RentalProperties() {
         }
 
         .content-wrapper {
-          width: 100%;
+          max-width: 1200px;
           margin: 0 auto;
           padding: 2rem;
         }
@@ -592,7 +593,7 @@ export default function RentalProperties() {
 
         .modal-header {
           display: flex;
-          justify-content: space-between;
+          justify-content: between;
           align-items: center;
           padding: 1.5rem 2rem;
           border-bottom: 1px solid #e2e8f0;
