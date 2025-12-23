@@ -264,15 +264,17 @@ export default function RentalProperties() {
       <style>{`
         
         .rental-container {
-          width: 100%;
-          background: #f8fafc;
+        margin-left: -8px;
+        margin-right: -8px;
+        width: 100%;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         /* Hero Section */
         .rental-hero-section {
           position: relative;
-          min-height: 300px;
-          width: 100%;
+           height: 300px;
+          width: 203vh;
           // background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0n6tOtVq-z6q4TMSXqQbHWrJL_Zg4BptC4w&s");
           display: flex;
           align-items: center;
@@ -323,7 +325,7 @@ export default function RentalProperties() {
         .content-wrapper {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 2rem 1rem;
+          padding: 2rem;
         }
 
         .section-title {
@@ -335,22 +337,16 @@ export default function RentalProperties() {
         }
 
         /* Filter Container */
-        // .filter-container {
-        //   background: white;
-        //   border-radius: 20px;
-        //   padding: 2rem;
-        //   margin-bottom: 3rem;
-        //   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        //   position: sticky;
-        //   top: 20px;
-        //   z-index: 100;
-        // }
-
         .filter-container {
-          margin: 0 auto 3rem;
-          padding: 2rem 1.5rem;
+          background: white;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 3rem;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+          position: sticky;
+          top: 20px;
+          z-index: 100;
         }
-
 
         .filter-bar {
           display: flex;
@@ -404,7 +400,7 @@ export default function RentalProperties() {
         /* Properties Grid */
         .properties-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
           gap: 2rem;
           margin-bottom: 3rem;
         }
@@ -474,7 +470,7 @@ export default function RentalProperties() {
 
         .property-header {
           display: flex;
-          justify-content: space-between;
+          justify-content: between;
           align-items: start;
           margin-bottom: 1rem;
         }
@@ -600,7 +596,7 @@ export default function RentalProperties() {
 
         .modal-header {
           display: flex;
-          justify-content: space-between;
+          justify-content: between;
           align-items: center;
           padding: 1.5rem 2rem;
           border-bottom: 1px solid #e2e8f0;
@@ -782,15 +778,7 @@ export default function RentalProperties() {
           .content-wrapper {
             padding: 1rem;
           }
-
         }
-        .hero-inner {
-          max-width: 1200px;
-          width: 100%;
-          padding: 0 1rem;
-          text-align: left;
-        }
-
       `}</style>
     </div>
   );
