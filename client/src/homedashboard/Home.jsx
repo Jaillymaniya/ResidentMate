@@ -36,7 +36,7 @@
 //       <h3>Notice Board</h3>
 //       <p>Share important updates, circulars, and announcements digitally with all members.</p>
 //     </div>
-    
+
 //   </div>
 // </section>
 
@@ -67,7 +67,11 @@ export default function Home() {
 
           <div className="hero-buttons">
             <button className="btn-primary">Get Started →</button>
-            <button className="btn-outline"><Link to="/login"><LogIn size={17} /> Login</Link></button>
+            {/* <button className="btn-outline"><Link to="/login"><LogIn size={17} /> Login</Link></button> */}
+            <Link to="/login" className="btn-outline">
+              <LogIn size={17} /> Login
+            </Link>
+
           </div>
         </div>
       </section>
@@ -213,7 +217,7 @@ export default function Home() {
         </div>
       </section>
 
-      
+
     </>
   );
 }

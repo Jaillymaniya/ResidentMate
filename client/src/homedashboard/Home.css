@@ -1,4 +1,14 @@
 /* ------------------ Global Styles ------------------ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   font-family: "Poppins", sans-serif;
   /* background: #f6f9fc; */
@@ -6,7 +16,7 @@ body {
 }
 
 /* ------------------ HERO SECTION ------------------ */
-.hero-section {
+/* .hero-section {
   margin-top: 10px;
   position: relative;
   width: 100%;
@@ -19,8 +29,24 @@ body {
   align-items: center;
   text-align: center;
   color: white;
+} */
+.hero-section {
+  margin-top: 10px;
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  padding: 1.5rem;
+  background: url("https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&w=1920&q=80") center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  /* 🔥 IMPORTANT */
 }
 
+/* 
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -32,14 +58,24 @@ body {
     rgba(56,116,136,0),
     rgba(11, 153, 223, 0.7)
   ); */
-  background: linear-gradient(
+/* background: linear-gradient(
     to bottom right,
     rgba(21, 50, 139, 0.62),   /* darker blue */
-    rgba(30, 160, 145, 0.55)      /* softer teal-green */
-  );
+/* rgba(30, 160, 145, 0.55)      /* softer teal-green */
+/* );
 
   mix-blend-mode: multiply;
+}  */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  /* instead of top/left/width/height */
+  background: linear-gradient(to bottom right,
+      rgba(21, 50, 139, 0.62),
+      rgba(30, 160, 145, 0.55));
 }
+
 
 .hero-content {
   position: relative;
@@ -70,12 +106,12 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
-  
+
 }
 
 .btn-primary {
   background: #00c4a7;
-  color: white ;
+  color: white;
   padding: 14px 32px;
   border-radius: 15px;
   font-size: 1.1rem;
@@ -107,7 +143,7 @@ body {
 
 
 /* ---------------- ROW HOUSE SECTION ---------------- */
-.rowhouse-section { 
+.rowhouse-section {
   justify-content: center;
   padding: 3rem 2rem;
   text-align: center;
@@ -131,7 +167,7 @@ body {
   max-width: 350px;
   background: white;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: 0.3s;
 }
@@ -160,7 +196,7 @@ body {
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-body {
@@ -201,7 +237,7 @@ body {
   padding: 2rem;
   background: white;
   border-radius: 20px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
   transition: 0.3s;
 }
 
@@ -223,10 +259,21 @@ body {
   color: white;
 }
 
-.blue { background: #2563eb; }
-.green { background: #0ea5e9; }
-.purple { background: #8b5cf6; }
-.pink { background: #ec4899; }
+.blue {
+  background: #2563eb;
+}
+
+.green {
+  background: #0ea5e9;
+}
+
+.purple {
+  background: #8b5cf6;
+}
+
+.pink {
+  background: #ec4899;
+}
 
 .hero-buttons {
   flex-wrap: wrap;
