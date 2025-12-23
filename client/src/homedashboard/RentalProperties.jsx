@@ -271,8 +271,8 @@ export default function RentalProperties() {
         /* Hero Section */
         .rental-hero-section {
           position: relative;
-           height: 300px;
-          width: 203vh;
+          min-height: 300px;
+          width: 100%;
           // background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0n6tOtVq-z6q4TMSXqQbHWrJL_Zg4BptC4w&s");
           display: flex;
           align-items: center;
@@ -323,7 +323,7 @@ export default function RentalProperties() {
         .content-wrapper {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 2rem;
+          padding: 2rem 1rem;
         }
 
         .section-title {
@@ -335,16 +335,23 @@ export default function RentalProperties() {
         }
 
         /* Filter Container */
+        // .filter-container {
+        //   background: white;
+        //   border-radius: 20px;
+        //   padding: 2rem;
+        //   margin-bottom: 3rem;
+        //   box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        //   position: sticky;
+        //   top: 20px;
+        //   z-index: 100;
+        // }
+
         .filter-container {
-          background: white;
-          border-radius: 20px;
-          padding: 2rem;
-          margin-bottom: 3rem;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-          position: sticky;
-          top: 20px;
-          z-index: 100;
+          max-width: 1200px;
+          margin: 0 auto 3rem;
+          padding: 2rem 1.5rem;
         }
+
 
         .filter-bar {
           display: flex;
@@ -398,7 +405,7 @@ export default function RentalProperties() {
         /* Properties Grid */
         .properties-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
           gap: 2rem;
           margin-bottom: 3rem;
         }
@@ -776,6 +783,7 @@ export default function RentalProperties() {
           .content-wrapper {
             padding: 1rem;
           }
+            
         }
       `}</style>
     </div>

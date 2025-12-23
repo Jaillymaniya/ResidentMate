@@ -185,8 +185,8 @@ export default function Home() {
             </div>
 
             <div className="card-body">
-              <h3>🏠 Modern 2BHK Row House</h3>
-              <p>Spacious family home with contemporary design and premium finishes</p>
+              <h3>🏠 Modern Row House</h3>
+              <p>Spacious family home with contemporary design and premium facilities</p>
             </div>
           </div>
 
