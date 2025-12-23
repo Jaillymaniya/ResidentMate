@@ -106,51 +106,98 @@ router.post("/login", async (req, res) => {
 
 
 // 🔹 Forgot Password
+// router.post("/forgot-password", async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     if (!email) return res.status(400).json({ message: "Email is required" });
+
+//     const user = await userModel.findOne({
+//       UserEmailID: { $regex: `^${email}$`, $options: "i" },
+//     });
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const otp = Math.floor(100000 + Math.random() * 900000);
+//     const expiry = Date.now() + 5 * 60 * 1000; // 5 min expiry
+
+//     global.otpStore = global.otpStore || {};
+//     global.otpStore[email] = { otp, expiry };
+
+//     const subject = "Your OTP Code - Society Management System";
+//     const html = `
+//       <div style="font-family: Arial, sans-serif; padding: 10px;">
+//         <h2>🔐 OTP Verification</h2>
+//         <p>Hello <b>${user.UserName}</b>,</p>
+//         <p>Your OTP for password reset is:</p>
+//         <h1 style="color:#4CAF50;">${otp}</h1>
+//         <p>This OTP will expire in <b>5 minutes</b>.</p>
+//         <br/>
+//         <p>Regards,<br/>${process.env.FROM_NAME}</p>
+//       </div>
+//     `;
+
+//     // Send email
+//     const mailSent = await sendMail(email, subject, html, `Your OTP is ${otp}`);
+
+//     if (!mailSent) {
+//       return res.status(500).json({ message: "Failed to send OTP email" });
+//     }
+
+//     console.log(`📩 OTP sent to ${email}: ${otp}`);
+
+//     // Return success (don’t include OTP for security)
+//     res.status(200).json({ message: "OTP sent to email" });
+//   } catch (error) {
+//     console.error("Forgot password error:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+
 router.post("/forgot-password", async (req, res) => {
   try {
-    const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email is required" });
+    const { UserEmailID } = req.body;
+
+    if (!UserEmailID)
+      return res.status(400).json({ message: "Email is required" });
 
     const user = await userModel.findOne({
-      UserEmailID: { $regex: `^${email}$`, $options: "i" },
+      UserEmailID: { $regex: `^${UserEmailID}$`, $options: "i" },
     });
-    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (!user)
+      return res.status(404).json({ message: "User not found" });
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    const expiry = Date.now() + 5 * 60 * 1000; // 5 min expiry
+    const expiry = Date.now() + 5 * 60 * 1000;
 
     global.otpStore = global.otpStore || {};
-    global.otpStore[email] = { otp, expiry };
+    global.otpStore[UserEmailID] = { otp, expiry };
 
     const subject = "Your OTP Code - Society Management System";
     const html = `
-      <div style="font-family: Arial, sans-serif; padding: 10px;">
-        <h2>🔐 OTP Verification</h2>
-        <p>Hello <b>${user.UserName}</b>,</p>
-        <p>Your OTP for password reset is:</p>
-        <h1 style="color:#4CAF50;">${otp}</h1>
-        <p>This OTP will expire in <b>5 minutes</b>.</p>
-        <br/>
-        <p>Regards,<br/>${process.env.FROM_NAME}</p>
-      </div>
+      <h2>OTP Verification</h2>
+      <p>Hello <b>${user.UserName}</b>,</p>
+      <h1>${otp}</h1>
+      <p>Expires in 5 minutes</p>
     `;
 
-    // Send email
-    const mailSent = await sendMail(email, subject, html, `Your OTP is ${otp}`);
+    const mailSent = await sendMail(
+      UserEmailID,
+      subject,
+      html,
+      `Your OTP is ${otp}`
+    );
 
-    if (!mailSent) {
+    if (!mailSent)
       return res.status(500).json({ message: "Failed to send OTP email" });
-    }
 
-    console.log(`📩 OTP sent to ${email}: ${otp}`);
-
-    // Return success (don’t include OTP for security)
     res.status(200).json({ message: "OTP sent to email" });
+
   } catch (error) {
     console.error("Forgot password error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 
 
