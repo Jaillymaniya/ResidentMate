@@ -264,17 +264,14 @@ export default function RentalProperties() {
       <style>{`
         
         .rental-container {
-        margin-left: 30px;
-        margin-right: -8px;
         width: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
         /* Hero Section */
         .rental-hero-section {
           position: relative;
            height: 300px;
-          width: 203vh;
+          width: 203vw;
           // background: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0n6tOtVq-z6q4TMSXqQbHWrJL_Zg4BptC4w&s");
           display: flex;
           align-items: center;
@@ -470,7 +467,7 @@ export default function RentalProperties() {
 
         .property-header {
           display: flex;
-          justify-content: between;
+          justify-content: space-between;
           align-items: start;
           margin-bottom: 1rem;
         }
